@@ -21,35 +21,36 @@
 
 module PC#(
         //Parameters
-       parameter    N_BITS = 16,
-       parameter    N_BITS_PC = 11
+       parameter    N_BITS = 32,
+       parameter    N_BITS_PC = 11,
+       parameter    INST_MEMORY_BITS=16
 
     )    
     (
         //Inputs
-        //input   wire    [N_BITS - 1 : 0]    in_addr,
-        input   wire                        enable,
-        input   wire                        i_clock,
-        input   wire                        i_reset,    
-
-        //Outputs
-        output   wire    [N_BITS_PC - 1 : 0]    out_addr
+        input   wire                                pc_enable,
+        input   wire                                pc_clock,
+        input   wire                                pc_reset,    
+        input   wire    [INST_MEMORY_BITS -1 : 0]   instruction,
+        input   wire    [N_BITS - 1 : 0]            in_mux_pc,
+        //Outputs   
+        output   wire    [N_BITS - 1 : 0]           out_pc_mem
     );
     
-    reg     [N_BITS_PC - 1 : 0]    addr;
+    reg     [N_BITS - 1 : 0]    pc;
     
-    assign out_addr = addr;
+    assign out_pc_mem = pc;
     
-    always@(posedge i_clock)
-        if(i_reset) begin
-            addr <= 0;
+    always@(posedge pc_clock)
+        if(pc_reset) begin
+            pc <= 0;
         end
         else begin 
-            if(enable) begin
-                addr <= addr + 1'b1;
+            if(pc_enable /*Falta condicion de debug*/) begin
+                pc <= in_mux_pc;
             end
             else begin
-                addr <= addr;
+                pc <= pc;
             end
         end    
         
