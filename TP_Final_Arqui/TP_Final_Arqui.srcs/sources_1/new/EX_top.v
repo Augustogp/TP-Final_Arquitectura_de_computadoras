@@ -52,7 +52,8 @@ module EX_top#(
         input wire [N_BITS_MUX_CON - 1:0]   top3_mux3_control,      // Control de mux3 
         input wire [N_BITS_ALUCON - 1:0]    top3_Alu_control_oper,  // Control de codigo de operacion ALU
         input wire [N_BITS_MUX_CON - 1:0]   top3_mux1_2_control,    // Control de mux1 y mux2
-        input wire                          top3_branch_in,
+        input wire                          MemRead_in,MemWrite_in,Branch_in,RegWrite_in,//control signals not used in this stage
+        input wire [1:0]                    MemtoReg_in,
         
         // Outputs
         output reg [N_BITS_PC - 1 : 0]          top3_pc_sumador1_out,   // Es la entrada al sumador (pc_sumador_in)
@@ -63,8 +64,9 @@ module EX_top#(
         output reg [N_BITS_RD - 1 : 0]          top3_rd_out,             // Identificador de registro fuente rd
             
         // Oututs de control
-        output reg top3_Branch,         // Salida de branch de control
-        output reg top3_zero_out        // Control de cero en ALU          
+        output reg top3_Branch, top3_MemRead, top3_MemWrite, top3_RegWrite,
+        output reg top3_zero_out,        // Control de cero en ALU  
+        output reg [1:0] top3_MemtoReg        
     );
     
     // Cables internos
@@ -89,6 +91,10 @@ module EX_top#(
             top3_write_addr_out     <= 0;
             top3_rd_out             <= 0;
             top3_Branch             <= 0;
+            top3_MemRead            <= 0;
+            top3_MemWrite           <= 0;
+            top3_MemtoReg           <= 0;    
+            top3_RegWrite           <= 0;
             top3_zero_out           <= 0;                
         end
         
@@ -101,6 +107,10 @@ module EX_top#(
                 top3_write_addr_out     <= top3_write_addr_out;
                 top3_rd_out             <= top3_rd_out;
                 top3_Branch             <= top3_Branch;
+                top3_MemRead            <= top3_MemRead;
+                top3_MemWrite           <= top3_MemWrite;
+                top3_MemtoReg           <= top3_MemtoReg;
+                top3_RegWrite           <= top3_RegWrite;
                 top3_zero_out           <= top3_zero_out;
             end
             else if (top3_enable) begin
@@ -110,7 +120,11 @@ module EX_top#(
                 top3_read_data2_out     <= top3_read_data2_in; 
                 top3_write_addr_out     <= cable_write_addr_out;
                 top3_rd_out             <= top3_rd_in;
-                top3_Branch             <= top3_branch_in;
+                top3_Branch             <= Branch_in;
+                top3_MemRead            <= MemRead_in;
+                top3_MemWrite           <= MemWrite_in;
+                top3_MemtoReg           <= MemtoReg_in;
+                top3_RegWrite           <= RegWrite_in;
                 top3_zero_out           <= cable_Zero_out;                
             end                           
         end
