@@ -28,23 +28,22 @@ module UART_top#(
     )
     (
         //Inputs
-        input wire top_uart_clock, top_uart_reset,
+        input wire top_uart_clock, top_uart_reset, top_uart_rx_in,
         input wire top_uart_tx_start,
         input wire [N_BITS_WORD - 1 : 0] top_uart_tx_in,
         
         // Outputs
-        output reg top_uart_tx_done,
-        output reg top_uart_read_en, top_uart_write_en,
-        output reg top_uart_mem_enable,
-        output reg [N_BITS_PC - 1 : 0] top_uart_write_addr,
-        output reg [N_BITS_INST - 1 : 0] top_uart_write_data
+        output wire top_uart_read_en, top_uart_tx_done,
+        output wire top_uart_write_en, top_uart_tick,
+        output wire top_uart_tx_out,
+        output wire [N_BITS_PC - 1 : 0] top_uart_write_addr,
+        output wire [N_BITS_INST - 1 : 0] top_uart_data_write,
+        output wire top_uart_enable
     );
     
     // Cables internos
-    wire wire_tick;
-    wire wire_tx_to_rx;
     wire wire_rx_done;
-    reg [N_BITS_WORD - 1:0]    reg_rx_out;
+    wire [N_BITS_WORD - 1:0] reg_rx_out;
     
     
     // Instancias de modulos
@@ -52,38 +51,38 @@ module UART_top#(
     Baud_rate_gen Baud_rate_gen(
         .i_clock(top_uart_clock),     
         .i_reset(top_uart_reset), 
-        .o_tick(wire_tick)
-    );
-    
-    Tx Tx (
-        .s_tick(wire_tick),
-        .tx(top_uart_tx_in),
-        .tx_start(top_uart_tx_start),
-        .i_clock(top_uart_clock),
-        .i_reset(top_uart_reset),
-        .dout_tx(wire_tx_to_rx),
-        .o_tx_done(top_uart_tx_done)
+        .o_tick(top_uart_tick)
     );
     
     Rx Rx (
-        .s_tick(wire_tick),
-        .rx(wire_tx_to_rx),
         .i_clock(top_uart_clock),
+        .s_tick(top_uart_tick),
+        .rx(top_uart_rx_in),
         .i_reset(top_uart_reset),
         .dout(reg_rx_out),
         .rx_done_tick(wire_rx_done)
     );
     
+    Tx Tx (
+        .i_clock(top_uart_clock),
+        .s_tick(top_uart_tick),
+        .tx(top_uart_tx_in),
+        .i_reset(top_uart_reset),
+        .dout_tx(top_uart_tx_out),
+        .tx_start(top_uart_tx_start),
+        .o_tx_done(top_uart_tx_done)
+    );
+    
     Unidad_Debug Unidad_Debug(
-        .i_RX_out(reg_rx_out),
-        .i_RX_done(wire_rx_done),
         .i_UD_clock(top_uart_clock),
-        .i_UD_reset(top_uart_reset),       
-        .o_write_data(top_uart_write_data),   
+        .i_UD_reset(top_uart_reset),
+        .i_RX_out(reg_rx_out),
+        .i_RX_done(wire_rx_done), 
+        .o_write_data(top_uart_data_write),   
         .o_write_addr(top_uart_write_addr),   
         .o_mem_write_e(top_uart_write_en),
         .o_mem_read_e(top_uart_read_en),
-        .o_mem_enable(top_uart_mem_enable)    
+        .o_mem_enable(top_uart_enable)    
     );
      
 endmodule

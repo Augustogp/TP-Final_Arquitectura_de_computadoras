@@ -61,7 +61,7 @@ module ID_top#(
         output reg [N_BITS_ALUOP - 1 :0]    top2_alu_op_out,
         output reg [1 :0]                   top2_alu_src_out, top2_reg_dst_out,
         output reg [1 :0]                   top2_mem_to_reg_out,
-        output reg [1 :0]                   top2_pc_src_out,
+        output wire [1 :0]                   top2_pc_src_out,
         output                              top2_IF_ID_reset,
         output                              top2_EX_MEM_reset
     );

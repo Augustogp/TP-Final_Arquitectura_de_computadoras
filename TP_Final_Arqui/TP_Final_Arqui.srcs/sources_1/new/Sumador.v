@@ -22,7 +22,7 @@
 
 module Sumador#(
         
-        parameter    N_BITS = 16
+        parameter    N_BITS = 32
     )
     (
         input   wire    [N_BITS - 1 : 0]    in_sum_1,

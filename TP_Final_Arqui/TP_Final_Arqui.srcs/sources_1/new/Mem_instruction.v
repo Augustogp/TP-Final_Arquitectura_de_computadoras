@@ -25,7 +25,7 @@ module Mem_instruction#(
         
         parameter   N_BITS_I = 32,  // Ancho de instruccion
         parameter   N_BITS_C = 32,  // Numero de entradas de la memoria
-        parameter   N_BITS_D = 5    // Log base 2 de la cantidad de entradasa memoria para asi direccionar
+        parameter   N_BITS_D = 5    // Log base 2 de la cantidad de entradas a memoria para asi direccionar
         
     )
     (

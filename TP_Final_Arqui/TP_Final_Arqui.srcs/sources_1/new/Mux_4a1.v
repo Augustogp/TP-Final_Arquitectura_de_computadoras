@@ -22,7 +22,7 @@
 
 module Mux_4a1#(
         
-        parameter   N_BITS = 16,
+        parameter   N_BITS = 32,
         parameter   N_BITS_M = 2   
     )
     (

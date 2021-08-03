@@ -30,8 +30,8 @@ module Data_Memory#(
     (
         //Inputs
         input   wire    i_clock, i_reset, i_wr_enable, i_rd_enable, i_enable,
-        input   wire    [N_BITS_ADDR : 0]    i_addr_rd, i_addr_wr,
-        input   wire    [N_BITS_DATA : 0]    i_data_wr,
+        input   wire    [N_BITS_ADDR - 1 : 0]    i_addr_rd, i_addr_wr,
+        input   wire    [N_BITS_DATA - 1 : 0]    i_data_wr,
         
         //Outputs        
         output  reg    [N_BITS_DATA - 1 : 0]    o_read_data 

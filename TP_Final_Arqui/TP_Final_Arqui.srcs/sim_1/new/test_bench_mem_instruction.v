@@ -37,6 +37,7 @@ module test_bench_mem_instruction();
 	reg reset;
 	reg wea;
 	reg rea;
+	reg enable;
 	reg [`MEMORY_WIDTH-1:0] instruction_memory_in;
 	reg [`MEMORY_ADDRWIDTH-1:0] pc_addr;
 	
@@ -56,10 +57,12 @@ module test_bench_mem_instruction();
         clk =           1'b0;
         reset =         1'b1;
         wea = 1'b0;
+        enable = 1'b0;
         repeat(10)                                  //Esperar 10 ciclos de reloj + #1
         @(posedge clk) #1;                          
         reset =         1'b0 ;
         wea = 1'b1;
+        enable = 1'b1;
         rea = 1'b1;
                
         //Sequential write & read in memory
@@ -94,7 +97,8 @@ module test_bench_mem_instruction();
 	)
 	Mem_instruction (
         .mem_clock(clk), 
-		.mem_reset(reset), 
+		.mem_reset(reset),
+		.mem_enable(enable),
 		.mem_write_e(wea), 
 		.mem_read_e(rea),
 		.mem_write_data(instruction_memory_in), 

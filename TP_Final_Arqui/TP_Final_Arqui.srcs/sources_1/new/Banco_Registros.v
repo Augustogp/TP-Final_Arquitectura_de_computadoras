@@ -30,8 +30,8 @@ module Banco_Registros#(
     (
         //Inputs
         input   wire    i_clock, i_reset, i_control_wr, i_enable,
-        input   wire    [N_BITS_ADDR : 0]    i_ra, i_rb, i_reg_wr,
-        input   wire    [N_BITS_DATA : 0]    i_data_wr,
+        input   wire    [N_BITS_ADDR - 1 : 0]    i_ra, i_rb, i_reg_wr,
+        input   wire    [N_BITS_DATA - 1 : 0]    i_data_wr,
         
         //Outputs        
         output  reg    [N_BITS_DATA - 1 : 0]    o_read_data1, o_read_data2 

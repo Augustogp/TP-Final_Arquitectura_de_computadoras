@@ -30,7 +30,7 @@ module test_bench_MEM();
     parameter REGISTERS_ADDR_WIDTH = $clog2(REGISTERS_DEPTH);
     
     //inputs
-    reg clk,reset;
+    reg clk,reset, enable;
     reg [DATA_MEMORY_ADDR_WIDTH - 1 : 0] Addr;
     reg [REGISTERS_WIDTH -1 : 0] Write_Data;
     reg [REGISTERS_ADDR_WIDTH -1 :0] Write_addr_in;
@@ -57,8 +57,10 @@ module test_bench_MEM();
         clk = 0;
         reset = 1'b1;
         i = 1'b0 ;
+        enable = 1'b0 ;
         @(negedge clk) #1;
         reset = 1'b0;
+        enable = 1'b1 ;
         Write_addr_in = 9;
         MemWrite = 1'b1;
         MemRead = 1'b1;
@@ -86,6 +88,7 @@ module test_bench_MEM();
         .top4_addr(Addr),
         .top4_write_data(Write_Data),
         .top4_write_addr(Write_addr_in),
+        .top4_mem_enable(enable),
         
         //control signals in
         .top4_mem_wr(MemWrite),

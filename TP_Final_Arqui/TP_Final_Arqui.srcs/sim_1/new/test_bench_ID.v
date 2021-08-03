@@ -52,6 +52,7 @@ module test_bench_ID();
     
     //Inputs
     reg clk,reset;
+    reg ID_write_in;
     reg [PC_WIDTH - 1 :0] pc_adder_in;
     reg [INST_WIDTH - 1 :0] instruction;
     reg [RD_WIDTH - 1 : 0] Write_addr;
@@ -81,7 +82,7 @@ module test_bench_ID();
 	
 	initial
 	begin
-        $readmemh("out.coe",ram,0);
+        $readmemh("out.txt",ram);
         clk =          1'b0;
         reset =        1'b1;
         Write_addr = 'h10 ;
@@ -92,8 +93,10 @@ module test_bench_ID();
         RegWrite_in = 1'b0;
         Branch_in = 1'b0;
         Zero_in = 1'b0;
+        ID_write_in = 1'b0;
         @(negedge clk) #1;   
         reset = 1'b0;
+        ID_write_in = 1'b1;
             while(ram[i] == ram[i])
             begin
                    instruction = ram[i];
@@ -113,7 +116,7 @@ module test_bench_ID();
         .top2_instruction_in(instruction),
         .top2_wr_addr(Write_addr),
         .top2_wr_data(Write_data),
-        
+        .top2_ID_write_in(ID_write_in),
         //control inputs
         .top2_reg_wr_in(RegWrite_in),
         .top2_zero_in(Zero_in),

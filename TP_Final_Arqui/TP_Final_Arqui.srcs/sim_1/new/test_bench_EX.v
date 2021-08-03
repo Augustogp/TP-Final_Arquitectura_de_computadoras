@@ -36,7 +36,7 @@ module test_bench_EX();
     parameter CLK_PERIOD = 4;
     
     //Inputs
-    reg clk,reset;
+    reg clk,reset,enable;
     reg [PC_WIDTH - 1 :0] pc_adder_in;
     reg [REGISTERS_WIDTH - 1 :0] offset;
     reg [REGISTERS_WIDTH - 1 :0] Read_data1,Read_data2_in;
@@ -65,9 +65,10 @@ module test_bench_EX();
         
         clk =          1'b0;
         reset =        1'b1;
-        
+        enable =       1'b0;
         @(negedge clk) #1;   
         reset =        1'b0;
+        enable =       1'b1;
         @(negedge clk) #1;  
         pc_adder_in = 15;
         Read_data1 = 1;
@@ -109,6 +110,7 @@ module test_bench_EX();
 	EX_top EX_top (
         
         //inputs
+        .top3_enable(enable),
         .top3_clock(clk),
         .top3_reset(reset),
         .top3_pc_sumador_in(pc_adder_in),
@@ -131,7 +133,7 @@ module test_bench_EX();
         .MemtoReg_in('b0),
         
         //Outputs
-        .top3_pc_sumador1_out(pc_adder),
+        .top3_pc_sumador2_out(pc_adder),
         .top3_write_addr_out(Write_addr),
         .top3_read_data2_out(Read_data2),
         .top3_alu_result_out(EX_MEM_Alu_result),

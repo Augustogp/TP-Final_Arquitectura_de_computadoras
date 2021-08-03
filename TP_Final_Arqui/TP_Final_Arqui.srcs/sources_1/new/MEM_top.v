@@ -96,15 +96,15 @@ module MEM_top#(
     end
     
     Data_Memory Data_Memory(
-        i_clock(top4_clock), 
-        i_reset(top4_reset), 
-        i_wr_enable(top4_reg_write_out), 
-        i_rd_enable(top4_mem_rd), 
-        i_enable(top4_mem_enable),
-        i_addr_rd(top4_addr), 
-        i_addr_wr(top4_alu_result_out),
-        i_data_wr(data_write),
-        o_read_data(read_data_o) 
+        .i_clock(top4_clock), 
+        .i_reset(top4_reset), 
+        .i_wr_enable(top4_reg_write_out), 
+        .i_rd_enable(top4_mem_rd), 
+        .i_enable(top4_mem_enable),
+        .i_addr_rd(top4_addr), 
+        .i_addr_wr(top4_alu_result_out),
+        .i_data_wr(data_write),
+        .o_read_data(read_data_o) 
     );
     
 endmodule
