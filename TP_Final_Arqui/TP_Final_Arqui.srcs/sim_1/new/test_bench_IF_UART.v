@@ -27,7 +27,7 @@ module test_bench_IF_UART();
     parameter WORD_WIDTH = 8;
     parameter INST_WIDTH = 32;
     parameter INST_INDEX_WIDTH = 26;
-    parameter INST_MEMORY_DEPTH = 64;
+    parameter INST_MEMORY_DEPTH = 12;
     
     //IF_top inputs
 	reg clk, reset, enable, read_enable, uart_enable ,tx_start, rea, mem_enable;
@@ -53,19 +53,19 @@ module test_bench_IF_UART();
 
     //Test Variables
     reg [INST_WIDTH-1:0] ram [INST_MEMORY_DEPTH-1:0]  ;
-    integer i;
-    integer j;
+    reg     [$clog2 (INST_MEMORY_DEPTH) - 1 : 0]  i;
+    reg     [$clog2 (INST_MEMORY_DEPTH) - 1 : 0]  j;
+    integer fp_r;
 	
 	always #`CLK_PERIOD clk = !clk;
 
     initial
     begin
-        $readmemh("C:\Users\facubos\Documents\TP-Final_Arquitectura_de_computadoras\TP_Final_Arqui\TP_Final_Arqui.sim\sim_1\behav\xsim\out.txt",ram);         //Cargo instrucciones
+        $readmemh("out.mem",ram, 0);         //Cargo instrucciones
         enable = 1'b0;
-        //read_enable = 1'b0;
-        //uart_enable = 1'b0;
         tx_start = 1'b0;
-        clk =           1'b0;
+        clk = 1'b0;     
+        
         // Pc multiplexor input
         pc_offset = 'haa;
         pc_src = 2'b00;
@@ -73,7 +73,7 @@ module test_bench_IF_UART();
         pc_register = 'hcc;
         tx_in = {WORD_WIDTH{1'b0}};
         @(posedge clk) #1;   
-        reset =         1'b1;
+        reset = 1'b1;
         repeat(10)                                  //Resetear y esperar 10 ciclos de reloj
         @(posedge clk) #1;                   
         reset= 0;
@@ -94,16 +94,14 @@ module test_bench_IF_UART();
             j = 0;
         end
         tx_start = 1'b0;
-        rea = 1'b1;
+        rea = 1'b1;       
+        pc_src = 2'b00;
+        @(posedge clk) #1;
+        enable = 1'b1;
         mem_enable = 1'b1;
-        pc_src = 2'b00;  
-        @(posedge clk) #1;  
-        enable = 1'b1; 
-        //read_enable = 1'b1; 
-        //uart_enable = 1'b1;
-	    IF_ID_write = 1'b1;
+        IF_ID_write = 1'b1;    
         repeat(5)                  //Lectura primeras 10 instrucciones
-	   
+
         @(posedge clk) #1;
         @(negedge clk) #1;
         IF_ID_write = 1'b0;
@@ -137,7 +135,7 @@ module test_bench_IF_UART();
     
     IF_top IF_top(
         //Inputs
-        .top1_clock(clk_out),
+        .top1_clock(clk),
         .top1_reset(reset),
         .top1_write_addr(write_addr),
         .top1_write_data(instruction_data_write),

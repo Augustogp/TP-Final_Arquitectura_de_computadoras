@@ -23,8 +23,8 @@ module PC#(
         //Parameters
        parameter    N_BITS = 32,
        parameter    N_BITS_PC = 11,
+       parameter    HALT_OPCODE = 'hffffffff,
        parameter    INST_MEMORY_BITS=16
-
     )    
     (
         //Inputs
@@ -42,17 +42,17 @@ module PC#(
     assign out_pc_mem = pc;
     
     always@(posedge pc_clock)
-        if(pc_reset) begin
+        if(pc_reset) 
+        begin
             pc <= 0;
         end
-        else begin 
-            if(pc_enable /*Falta condicion de debug*/) begin
-                pc <= in_mux_pc;
-            end
-            else begin
-                pc <= pc;
-            end
-        end    
-        
+        else if(pc_enable && (instruction != HALT_OPCODE))
+        begin
+            pc <= in_mux_pc;
+        end
+        else 
+        begin
+            pc <= pc;
+        end
        
 endmodule

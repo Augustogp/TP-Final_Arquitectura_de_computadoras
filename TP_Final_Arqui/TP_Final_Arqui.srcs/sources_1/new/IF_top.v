@@ -93,7 +93,7 @@ module IF_top#(
         .pc_enable(top1_pc_enable),
         .pc_clock(top1_clock),
         .pc_reset(top1_reset),
-        .instruction(), // Ver para que esta
+        .instruction(wire_memoria_out[25:0]), // Ver para que esta
         .in_mux_pc(wire_mux_pc),
         .out_pc_mem(wire_pc_mem)
     );
