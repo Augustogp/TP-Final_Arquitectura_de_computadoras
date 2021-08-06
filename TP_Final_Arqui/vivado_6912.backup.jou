@@ -1,0 +1,19 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Tue Mar 30 20:57:50 2021
+# Process ID: 6912
+# Current directory: C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent5412 C:\Users\augus\Documents\Git\TP-Final_Arquitectura_de_computadoras\TP_Final_Arqui\TP_Final_Arqui.xpr
+# Log file: C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/vivado.log
+# Journal file: C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.xpr
+update_compile_order -fileset sources_1
+add_files -norecurse {C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sources_1/new/Extension_Signo.v C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sources_1/new/Control.v C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sources_1/new/Banco_Registros.v}
+update_compile_order -fileset sources_1
+close [ open C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sources_1/new/Data_Memory.v w ]
+add_files C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sources_1/new/Data_Memory.v
+update_compile_order -fileset sources_1

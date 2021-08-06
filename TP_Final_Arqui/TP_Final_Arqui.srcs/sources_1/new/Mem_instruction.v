@@ -25,7 +25,8 @@ module Mem_instruction#(
         
         parameter   N_BITS_I = 32,  // Ancho de instruccion
         parameter   N_BITS_C = 32,  // Numero de entradas de la memoria
-        parameter   N_BITS_D = 5    // Log base 2 de la cantidad de entradas a memoria para asi direccionar
+        parameter   N_BITS_MEMORY_DEPTH = 32,
+        parameter   N_BITS_D = $clog2(N_BITS_MEMORY_DEPTH)    // Log base 2 de la cantidad de entradas a memoria para asi direccionar
         
     )
     (
@@ -40,7 +41,7 @@ module Mem_instruction#(
         output  reg  [N_BITS_I - 1 : 0]   out_mem       // Output para lectura de instruccion  
     );
     
-    reg [N_BITS_C - 1 : 0] memoria_data [N_BITS_D - 1 : 0] ;//Memoria
+    reg [N_BITS_C - 1 : 0] memoria_data [N_BITS_MEMORY_DEPTH - 1 : 0] ;//Memoria
     
     
     always@(negedge mem_clock) begin

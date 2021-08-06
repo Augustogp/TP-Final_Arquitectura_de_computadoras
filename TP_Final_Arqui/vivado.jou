@@ -1,0 +1,79 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Thu Aug  5 19:31:00 2021
+# Process ID: 5188
+# Current directory: C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent14228 C:\Users\augus\Documents\Git\TP-Final_Arquitectura_de_computadoras\TP_Final_Arqui\TP_Final_Arqui.xpr
+# Log file: C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/vivado.log
+# Journal file: C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.xpr
+update_compile_order -fileset sources_1
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+add_files -fileset sim_1 -norecurse {C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sim_1/new/TestBench_Tx.v C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sim_1/new/TestBench_Top.v C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sim_1/new/TestBench_WB.v}
+update_compile_order -fileset sim_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top TestBench_WB [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+launch_simulation
+launch_simulation
+source TestBench_WB.tcl
+set_property -name {xsim.simulate.runtime} -value {100000ns} -objects [get_filesets sim_1]
+close_sim
+launch_simulation
+source TestBench_WB.tcl
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top TestBench_Tx [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+launch_simulation
+close_sim
+launch_simulation
+source TestBench_Tx.tcl
+set_property -name {xsim.simulate.runtime} -value {10000000ns} -objects [get_filesets sim_1]
+close_sim
+launch_simulation
+source TestBench_Tx.tcl
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top TestBench_Topx [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+launch_simulation
+close_sim
+launch_simulation
+source TestBench_Topx.tcl
+add_files -norecurse C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sources_1/new/Top.v
+update_compile_order -fileset sources_1
+set_property -name {xsim.simulate.runtime} -value {100ms} -objects [get_filesets sim_1]
+close_sim
+launch_simulation
+launch_simulation
+launch_simulation
+source TestBench_Topx.tcl
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+set_property -name {xsim.simulate.runtime} -value {50ms} -objects [get_filesets sim_1]
+close_sim
+launch_simulation
+source TestBench_Topx.tcl
+save_wave_config {C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TestBench_Topx_behav.wcfg}
+add_files -fileset sim_1 -norecurse C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TestBench_Topx_behav.wcfg
+set_property xsim.view C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TestBench_Topx_behav.wcfg [get_filesets sim_1]
+relaunch_sim
+relaunch_sim
+relaunch_sim

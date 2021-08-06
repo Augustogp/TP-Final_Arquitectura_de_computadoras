@@ -35,7 +35,7 @@ module WB_top#(
         input wire [N_BITS_MUX_CON - 1:0]   top5_Mem_to_Reg,        // Control de mux de WB 
         
         // Outputs
-        output reg [N_BITS_REG - 1 : 0]     top5_write_data_out     // Escritura en memoria     
+        output wire [N_BITS_REG - 1 : 0]     top5_write_data_out     // Escritura en memoria     
     );
     
     // Instancias de modulos
