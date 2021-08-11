@@ -20,131 +20,151 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Tx#(      
-        parameter   N_BITS = 8,
-        parameter   N_BITS_P = 4,
-        parameter   N_BITS_ESTADO = 2,
-        parameter   N_BITS_RESOLUTION = 16
-    )
-    (
-        //Inputs
-        input   wire    s_tick,
-        input   wire    [N_BITS-1:0]    tx, //00110011
-        input   wire    tx_start,
-        input   wire    i_clock,
-        input   wire    i_reset,
-        
-        //Outputs
-        output  reg     dout_tx,
-        output  reg     o_tx_done
-        //output  reg                     tx_done_tick //salida en 1 si se termino de transmitir el byte
-    );
-    
-    localparam [N_BITS_ESTADO - 1:0]    IDLE    =   2'b00;
-    localparam [N_BITS_ESTADO - 1:0]    DATA    =   2'b01;
-    localparam [N_BITS_ESTADO - 1:0]    STOP    =   2'b10;
-    
-    // Declaracion de señales
-    reg     [N_BITS_P-1:0]   contador_tx, next_contador_tx;
-    reg     [N_BITS_ESTADO - 1:0]   estado, next_estado;
-    reg     [N_BITS_P-1:0]   bit_count, next_bit_count; // Registro para ver por cual de los 8 bits va
-    reg     next_o_tx_done;
-    
-    always@(posedge i_clock) begin
-        if(i_reset) begin
-            estado <= IDLE;
-            contador_tx <= 0;
-            bit_count <= 0;
-            o_tx_done <= 0;
-        end
-        else begin 
-            if(s_tick)
-                estado <= next_estado;
-                contador_tx <= next_contador_tx;
-                bit_count <= next_bit_count;
-                o_tx_done <= next_o_tx_done;
-        end
-    end
-    
-    always@(posedge s_tick) begin
-        //if(s_tick == 1)
-        //begin
-            next_contador_tx = contador_tx;
-            next_bit_count = bit_count;
-            next_o_tx_done = 0;
-            case(estado)
-                IDLE: //Esta en estado de IDLE (todavia no llego el tick 7)
-                    begin
-                        if(tx_start == 1 && contador_tx == 4'b0000) 
-                        begin
-                            //tx_done_tick = 1'b0;
-                            next_estado = DATA; //Ya llego al punto medio, y empieza a tomar datos
-                            next_contador_tx = 1'b0;
-                            next_bit_count = 4'b0000; 
-                            dout_tx = 1'b0; //Se le pasa un 0 en idle porque con el primer 0 es el start
-                        end
-                        else 
-                            begin
-                                next_contador_tx = next_contador_tx + 1'b1;
-                            end
-                    end
-                DATA: //El contador ya llego a 7 y ahora se reinicia y empieza a tomar datos.
-                    begin
-                        next_contador_tx = next_contador_tx + 1'b1;
-                        if(contador_tx == 4'b1111) //si el contador llega a 15 ya se tiene el valor de un bit
-                        begin
-                            next_estado = DATA; //Sigue siendo DATA porque talvez necesite mas bits
-                            case(bit_count)                                    
-                                4'b0000 : dout_tx = tx >> 7;            
-                                4'b0001 : dout_tx = tx >> 6;            
-                                4'b0010 : dout_tx = tx >> 5;    
-                                4'b0011 : dout_tx = tx >> 4; 
-                                4'b0100 : dout_tx = tx >> 3;
-                                4'b0101 : dout_tx = tx >> 2;
-                                4'b0110 : dout_tx = tx >> 1;
-                                4'b0111 : dout_tx = tx;
-                                default : dout_tx = 0;
-                            endcase
-                            if(bit_count == 3'b111) //Si es 7 bit count significa que ya paso los 8 bits.
-                            begin 
-                                next_estado = STOP; //Quiere decir que el proximo bit va a ser de STOP
-                                next_bit_count = 1'b0;
-                                next_contador_tx =  1'b0;
-                                //tx_done_tick <= 1'b0;
-                            end
-                            else begin
-                                next_bit_count = next_bit_count + 1'b1; //Se dice que se transmitio un bit mas
-                                next_contador_tx = 1'b0; //Al ser contador de 4 bits, a los 15 se reinicia con el +1
-                            end                    
-                        end     
-                    end                            
-                STOP:
-                    begin
-                        next_contador_tx = next_contador_tx + 1'b1;
-                        if(contador_tx == 4'b1111)
-                        begin
-                           //rx_done_tick <= 1'b1;
-                           dout_tx = 1'b1; //Se transmite el bit de stop
-                           next_o_tx_done = 1'b1;
-                           next_estado = IDLE; //Va a quedar en IDLE nuevamente hasta que se vacie el dato
-                           next_contador_tx = 1'b1; //se reinicia el contador
-                        end 
-                    end
-                        
-                default: 
-                    begin
-                        //tx_done_tick <= 1'b0; 
-                        next_estado = IDLE; //Esta todo en 0 va a pasar a estado de IDLE y esperar a los 7 ticks
-                        next_contador_tx = 1'b0;
-                        next_bit_count = 1'b0; 
-                        dout_tx = 1'b1;
-                    end             
-                endcase             
-        //end
-    end
-    
-    //Instanciacion de modulos
- //   baud_rate_gen baud_rate_gen(.o_tick(s_tick));
-    
-endmodule
 
+
+module Tx
+#(	
+    parameter WORD_WIDTH = 8, //#Data Nbits
+    parameter STOP_BIT_COUNT = 1 , //bits for stop signal
+    parameter BIT_RESOLUTION = 16, //Number of s_ticks per bit sample
+    parameter STOP_TICK_COUNT = STOP_BIT_COUNT * BIT_RESOLUTION,
+    parameter BIT_COUNTER_WIDTH = $clog2(WORD_WIDTH),
+    parameter TICK_COUNTER_WIDTH = $clog2(STOP_TICK_COUNT)
+)
+( 
+input  i_clock, i_reset, s_tick, tx_start,
+input  [WORD_WIDTH-1:0] tx, 
+output  reg  o_tx_done,               //Must be checked externally to load new value or disable tx_start
+output  reg  dout_tx
+);
+					 
+localparam NSTATES = 4;
+  
+// One hot  state  constants
+localparam  [NSTATES-1:0]
+	IDLE  =  4'b0001, 
+	START =  4'b0010, 
+	DATA  =  4'b0100, 
+	STOP  =  4'b1000; 
+
+// Signal  declarations 
+reg  [NSTATES-1:0]  state_reg, state_next;
+reg  [TICK_COUNTER_WIDTH - 1:0]  s_reg, s_next; 
+reg  [BIT_COUNTER_WIDTH:0]  n_reg, n_next; 
+reg  [WORD_WIDTH-1:0]  b_reg, b_next; 
+reg tx_done_reg;
+reg tx_reg, tx_next;
+
+//  FSMD memory ( states  &  DATA  registers )
+always  @(posedge i_clock) 
+	if (i_reset) 
+		begin 
+			state_reg  <=  IDLE; //comienzo en IDLE
+			s_reg  <=  0; //contador de ticks
+			n_reg  <=  0; //contador de bits
+			b_reg  <=  0;//byte a transmitir
+			tx_reg <= 0;
+		end 
+	else 
+		begin 
+			state_reg  <=  state_next ; 
+			s_reg  <=  s_next; 
+			n_reg  <=  n_next; 
+			b_reg  <=  b_next; 
+			tx_reg <= tx_next;
+		end 
+
+//  FSMD  next-state  logic 
+always  @* 
+begin 
+	state_next  =  state_reg; 
+	tx_done_reg  =  1'b0; 
+	s_next  =  s_reg; 
+	n_next  =  n_reg; 
+	b_next  =  b_reg; 
+	tx_next = tx_reg;
+
+	case (state_reg) 
+		IDLE:
+			begin
+				if  (tx_start) //si el bit de start = 1 ,comienza la transmision
+					begin 
+						state_next  =  START; //siguiente estado START
+						s_next  =  0; //reseteo contador ticks
+						b_next = tx;
+					end 
+			end
+		START:
+			begin
+				if  (s_tick) 
+					if  (s_reg==BIT_RESOLUTION-1) //cuento ticks hasta el final del STOP bit
+						begin 
+							state_next  =  DATA; //sampleo
+							s_next  =  0; //reseteo contador de ticks/bits
+							n_next  =  0; 
+						end 
+					else 
+						s_next  =  s_reg  +  1;//contador ticks +1
+			end
+		DATA:
+			begin
+				tx_next = b_reg[0]; //Transmito el bit menos significativo
+				if  (s_tick) 
+					if  (s_reg==BIT_RESOLUTION-1) //sampleo cada 16 ticks
+						begin 
+							s_next  =  0; //Reseteo contador de ticks
+							b_next  =  b_reg >> 1 ; //desplazo byte a la derecha
+							if  (n_reg==(WORD_WIDTH - 1)) //al transmitir DBIT's
+								state_next  =  STOP  ; //defino siguiente estado en STOP
+							else 
+								n_next  =  n_reg  +  1; //contador de bits + 1
+						end 
+					else 
+						s_next  =  s_reg  +  1; //contador de ticks + 1
+			end
+		STOP: 
+			begin
+				if  (s_tick) 
+					if  (s_reg == (STOP_TICK_COUNT - 1)) //Mantengo el bit de stop hasta 'stop_tick_count' ticks
+						begin 
+							state_next  =  IDLE;//vuelvo al IDLE
+							tx_done_reg  = 1'b1;//seteo la flag del buff para cargar nuevo dato
+						end 
+				else 
+					s_next  =  s_reg  +  1;//contador de ticks + 1
+			end
+	endcase
+
+end
+
+//Output logic
+always@(*)
+case(state_reg)
+    IDLE :
+    begin
+    	dout_tx =  1'b1;//Genero bit de stop/idle (1) , Idle transmision signal hasta q se indique el comienzo de la transmision
+    	o_tx_done = 0;
+    end
+    START :
+    begin
+    	dout_tx = 1'b0;//Genero bit de start (0) durante la etapa del start
+    	o_tx_done = 0;
+    end
+    DATA :
+    begin
+    	dout_tx = tx_reg;//Transmitiendo bits del buffer (8)
+    	o_tx_done = 0;
+    end
+    STOP :
+    begin
+    	dout_tx = 1'b1;//Genero bit de stop/idle (1) lo que dure etapa stop   
+    	o_tx_done = tx_done_reg;//Al finalizar se setea la flag
+    end
+    default :
+	begin
+    	dout_tx = 0;
+		o_tx_done = 0;
+	end
+endcase
+
+endmodule

@@ -101,7 +101,7 @@ module Top#(
     //-------------EX out to MEM in-----------------------
     wire    [N_BITS_PC - 1 : 0] EX_mem_pc_adder;
     wire    [N_BITS_REGISTERS - 1 : 0]  EX_alu_result;
-    wire    [N_BITS_REGISTERS_ADDR - 1 : 0] Ex_wr_addr;
+    wire    [N_BITS_REGISTERS_ADDR - 1 : 0] EX_wr_addr;
     wire    [N_BITS_REGISTERS - 1 : 0]  EX_rd_data;
     wire    [N_BITS_RD - 1 : 0] EX_rd;
     
@@ -147,8 +147,10 @@ module Top#(
         .top_uart_reset(i_reset),
         .top_uart_tx_start(i_tx_start),
         .top_uart_tx_in(i_tx),
+        .top_uart_rx_in(rx_in),
         
         // Outputs
+        .top_uart_tx_out(rx_in),
         .top_uart_tx_done(tx_done),
         .top_uart_read_en(rd_enable), 
         .top_uart_write_en(wr_enable),
@@ -267,18 +269,26 @@ module Top#(
         .top3_Alu_control_oper(ID_alu_op),  // Control de codigo de operacion ALU
         .top3_mux1_2_control(ID_alu_src),    // Control de mux1 y mux2
         .Branch_in(ID_branch),
+        .MemtoReg_in(ID_mem_to_reg),
+        .MemRead_in(ID_mem_rd),
+        .MemWrite_in(ID_mem_wr),
+        .RegWrite_in(ID_reg_wr),//control signals not used in this stage
         
         // Outputs
         .top3_pc_sumador1_out(EX_pc_adder),   // Es la entrada al sumador (pc_sumador_in)
         .top3_pc_sumador2_out(EX_mem_pc_adder),   // Es la salida del sumador
         .top3_alu_result_out(EX_alu_result),    // Resultado de la ALU
-        .top3_read_data2_out(EX_rd_data2),    // Dato 2 del banco de registros que se pone como salida 
+        .top3_read_data2_out(EX_rd_data),    // Dato 2 del banco de registros que se pone como salida 
         .top3_write_addr_out(EX_wr_addr),    // Salida de mux3 con la direccion de escritura
         .top3_rd_out(EX_rd),             // Identificador de registro fuente rd
             
         // Oututs de control
         .top3_Branch(EX_branch),         // Salida de branch de control
-        .top3_zero_out(EX_zero)        // Control de cero en ALU          
+        .top3_MemRead(EX_mem_rd),
+        .top3_MemWrite(EX_mem_wr), 
+        .top3_RegWrite(EX_MEM_reg_wr),
+        .top3_zero_out(EX_zero),        // Control de cero en ALU  
+        .top3_MemtoReg(EX_mem_to_reg)        
     );
     
     MEM_top top_mem
@@ -287,7 +297,7 @@ module Top#(
         .top4_clock(i_clock), 
         .top4_reset(i_reset),
         .top4_addr(EX_alu_result),
-        .top4_write_data(EX_rd_data2),
+        .top4_write_data(EX_rd_data),
         .top4_write_addr(EX_wr_addr),
         .top4_pc_adder(EX_mem_pc_adder),
         .top4_rd(EX_rd),

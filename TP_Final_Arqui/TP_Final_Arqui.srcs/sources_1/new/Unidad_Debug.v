@@ -130,7 +130,7 @@ module Unidad_Debug#(
             
             CARGANDO: begin
                 if(i_RX_done) begin
-                    if(cont_palabras == (N_BITS_INST/N_BITS_RX)) begin // Se ve si se pasaron todas las palabras
+                    if(cont_palabras == (N_BITS_INST/N_BITS_RX)-1) begin // Se ve si se pasaron todas las palabras
                         reg_estado_next = LISTO;
                         inst_buffer_next = {i_RX_out, inst_buffer[N_BITS_INST-1:N_BITS_RX]};
                         inst_addr_cont_next = inst_addr_cont;

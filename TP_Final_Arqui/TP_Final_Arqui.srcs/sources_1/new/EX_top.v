@@ -147,8 +147,8 @@ module EX_top#(
     
     Mux_2a1 Mux2_EX(
         .in_mux_control(top3_mux1_2_control[1]),
-        .in_mux_1(top3_offset),
-        .in_mux_2(top3_read_data2_in),
+        .in_mux_1(top3_read_data2_in),
+        .in_mux_2(top3_offset),
         .out_mux(cable_mux2_out)
     );
     

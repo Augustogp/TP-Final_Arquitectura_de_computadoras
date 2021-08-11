@@ -24,7 +24,7 @@ module PC#(
        parameter    N_BITS = 32,
        parameter    N_BITS_PC = 11,
        parameter    HALT_OPCODE = 'hffffffff,
-       parameter    INST_MEMORY_BITS=16
+       parameter    INST_MEMORY_BITS=26
     )    
     (
         //Inputs

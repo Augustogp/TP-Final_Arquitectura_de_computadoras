@@ -58,6 +58,7 @@ module TestBench_Topx#(
     end
     
     initial
+    #1
     begin
         tb_reset = 1'b1;
         tb_clock = 1'b0;
@@ -76,7 +77,7 @@ module TestBench_Topx#(
         begin
             while(j < N_BITS_INSTR / N_BITS)
             begin
-                #10000;
+               // #10000;
                 tb_tx_in = (ram[i] >> (j * N_BITS));
                 tb_tx_start = 1'b1;
                 @(negedge tb_tx_done) tb_tx_start = 1'b0;

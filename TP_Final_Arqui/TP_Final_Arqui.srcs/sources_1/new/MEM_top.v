@@ -22,7 +22,7 @@
 
 module MEM_top#(
         
-        parameter   N_BITS_REG_ADDR = 32,       // Bits de los registros del la memoria de datos
+        parameter   N_BITS_REG_ADDR = 5,       // Bits de los registros del la memoria de datos
         parameter   N_BITS_WIDTH_DATA = 32, // Bits de ancho de la memoria
         parameter   N_BITS_MEMORY_ADDR = 32,       // Bits de direcciones de la memoria
         parameter   N_BITS_PC_ADDER = 32, // Bits program counter

@@ -23,7 +23,7 @@
 module Unidad_Cortocircuito#(
         parameter   N_BITS_RS = 5,          // Bits de rs
         parameter   N_BITS_RT = 5,           // Bits de rt
-        parameter   N_BITS = 2
+        parameter   N_BITS_CORTO = 2
     )
     (
         //Inputs
@@ -36,13 +36,13 @@ module Unidad_Cortocircuito#(
         
         
         //Outputs
-        output reg [N_BITS_RT - 1 : 0]      operando1_corto,
-        output reg [N_BITS_RT - 1 : 0]      operando2_corto
+        output reg [N_BITS_CORTO - 1 : 0]      operando1_corto,
+        output reg [N_BITS_CORTO - 1 : 0]      operando2_corto
     );
     
     //Condiciones del cortocircuito
     always@(*) begin
-        if(EX_MEM_RegWrite == 0 && MEM_WB_RegWrite)
+        if((EX_MEM_RegWrite == 0) && (MEM_WB_RegWrite == 0))
         begin
             operando1_corto = 'b0;
             operando2_corto = 'b0;

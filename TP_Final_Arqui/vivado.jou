@@ -77,3 +77,11 @@ set_property xsim.view C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_com
 relaunch_sim
 relaunch_sim
 relaunch_sim
+relaunch_sim
+relaunch_sim
+add_bp {C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sim_1/new/TestBench_Top.v} 77
+remove_bps -file {C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sim_1/new/TestBench_Top.v} -line 77
+relaunch_sim
+relaunch_sim
+save_wave_config {C:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TestBench_Topx_behav.wcfg}
+close_sim

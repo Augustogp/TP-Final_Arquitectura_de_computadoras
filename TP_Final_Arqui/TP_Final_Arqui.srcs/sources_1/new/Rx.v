@@ -20,114 +20,133 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Rx#(
-        parameter   N_BITS_ESTADO = 2,
-        parameter   N_BITS = 8,
-        parameter   N_BITS_P = 4
-    )
-    (
-        //Inputs
-        input   wire    s_tick,
-        input   wire    rx,
-        input   wire    i_clock,
-        input   wire    i_reset,
-        
-        //Outputs
-        output  reg     [N_BITS-1:0]    dout, //Registro que va a ir a la ALU
-        output  reg                     rx_done_tick //salida en 1 si se termino de recibir el byte
-    );
+module Rx
+#(	
+    parameter WORD_WIDTH = 8, //#Data Nbits
+    parameter STOP_BIT_COUNT = 1 , //bits for stop signal
+    parameter BIT_RESOLUTION = 16, //Number of s_ticks per bit sample
+    parameter STOP_TICK_COUNT = STOP_BIT_COUNT * BIT_RESOLUTION,
+    parameter BIT_COUNTER_WIDTH = $clog2(WORD_WIDTH),
+    parameter TICK_COUNTER_WIDTH = $clog2(STOP_TICK_COUNT)
+)
+( 
+    input  i_clock, i_reset, 
+    input  rx,  s_tick, 
+    output  reg  rx_done_tick, 
+    output  reg  [WORD_WIDTH-1:0]  dout
+);
+					 
+localparam STATE_WIDTH = 4;
+  
+// One hot  state  constants
+localparam  [STATE_WIDTH:0]
+	IDLE  =  4'b0001, 
+	START =  4'b0010, 
+	DATA  =  4'b0100, 
+	STOP  =  4'b1000; 
 
-    localparam [N_BITS_ESTADO - 1:0]    IDLE    =   2'b00;
-    localparam [N_BITS_ESTADO - 1:0]    DATA    =   2'b01;
-    localparam [N_BITS_ESTADO - 1:0]    STOP    =   2'b10;
-     
-    reg     [N_BITS_P-1:0]   contador, next_contador;
-    reg     [2:0]            estado;
-    reg     [2:0]            next_estado;
-    reg     [N_BITS_P-1:0]   bit_count, next_bit_count; // Registro para ver por cual de los 8 bits va
+// Signal  declarations 
+reg  [STATE_WIDTH-1:0]  state_reg, state_next;
+reg  [TICK_COUNTER_WIDTH - 1:0]  s_reg, s_next; 
+reg  [BIT_COUNTER_WIDTH:0]  n_reg, n_next; 
+reg  [WORD_WIDTH-1:0]  b_reg, b_next; 
+reg done_reg;
 
+//  FSMD memory ( states  &  DATA  registers )
+always  @(posedge i_clock) 
+	if (i_reset) 
+		begin 
+			state_reg  <=  IDLE; //comienzo en IDLE
+			s_reg  <=  0; //contador de s_ticks
+			n_reg  <=  0; //contador de bits
+			b_reg  <=  0;//byte a recibir
+		end 
+	else 
+		begin 
+			state_reg  <=  state_next ; 
+			s_reg  <=  s_next; 
+			n_reg  <=  n_next; 
+			b_reg  <=  b_next; 
+		end 
 
-    always@(posedge i_clock) begin
-        if(i_reset) begin
-            estado <= IDLE;
-            contador <= 0;
-            bit_count <= 0;
-        end
-        else begin 
-            if(s_tick)
-                estado <= next_estado;
-                contador <= next_contador;
-                bit_count <= next_bit_count;                
-        end
+//  FSMD  next-state  logic 
+always  @* 
+begin 
+	state_next  =  state_reg; 
+	done_reg  =  1'b0; 
+	s_next  =  s_reg; 
+	n_next  =  n_reg; 
+	b_next  =  b_reg; 
+
+	case (state_reg) 
+		IDLE:
+			if  (~rx) //si el bit rx = 0 (START)
+			begin 
+				state_next  =  START; //siguiente estado START
+				s_next  =  0; //i_reseteo contador s_ticks
+			end 
+		START:
+			if  (s_tick) 
+				if  (s_reg==BIT_RESOLUTION/2) //cuento s_ticks hasta la mitad del STOP bit
+					begin 
+						state_next  =  DATA; //sampleo
+						s_next  =  0; //i_reseteo contador de s_ticks/bits
+						n_next  =  0; 
+					end 
+				else 
+					s_next  =  s_reg  +  1;//contador s_ticks +1
+		DATA:
+			if  (s_tick) 
+				if  (s_reg==BIT_RESOLUTION-1) //sampleo cada 16 s_ticks con desfasaje de 8
+					begin 
+						s_next  =  0; 
+						//desplazo byte a la izq y agrego el bit rx al Lsb
+						b_next  =  {rx , b_reg  [WORD_WIDTH-1 : 1]} ; 
+						if  (n_reg==(WORD_WIDTH - 1)) //al recibir DBIT's
+							state_next  =  STOP  ; //defino siguiente estado en STOP
+						else 
+							n_next  =  n_reg  +  1; //contador de bits + 1
+					end 
+				else 
+					s_next  =  s_reg  +  1; //contador de s_ticks + 1
+		STOP: 
+			if  (s_tick) 
+				if  (s_reg == (STOP_TICK_COUNT - 1)) //Cuento s_ticks de bit de STOP
+					begin 
+						state_next  =  IDLE;//vuelvo al IDLE
+						done_reg  = 1'b1;//seteo la flag del buff para cargar nuevo dato
+					end 
+				else 
+					s_next  =  s_reg  +  1;//contador de s_ticks + 1
+	endcase
+
+end
+
+//Output logic
+always@(*)
+case(state_reg)
+    IDLE :
+    begin
+    dout = dout;//Mantain dout and done flag till start recieving again
+    rx_done_tick = 0;
     end
-
-    always@ (posedge s_tick) begin
-        //if(s_tick == 1)
-        //begin
-            case(estado)
-                IDLE: //Esta en estado de IDLE (todavia no llego el tick 7)
-                    begin
-                        if(rx == 0)
-                        begin
-                            //contador = contador + 1'b1; //quiere decir que todavia no llego a los primeros 7 ticks
-                            if(contador == 4'b0111) 
-                            begin
-                                rx_done_tick = 1'b0;
-                                next_estado = DATA; //Ya llego al punto medio, y empieza a tomar datos
-                                next_contador = 1'b0;
-                                next_bit_count = 1'b0; 
-                                dout = 1'b0;
-                            end
-                            else 
-                                begin
-                                    next_contador = next_contador + 1'b1;
-                                end 
-                        end
-                    end
-                        
-                DATA: //El contador ya llego a 7 y ahora se reinicia y empieza a tomar datos.
-                    begin
-                        next_contador = next_contador + 1'b1;
-                        if(contador == 4'b1111) //si el contador llega a 15 ya se tiene el valor de un bit
-                        begin
-                            next_estado = DATA; //Sigue siendo DATA porque talvez necesite mas bits
-                            dout = {dout[0 +: N_BITS-1 ],rx}; //Se va a ir concatenando hasta tener los 8 bits en dout 
-                            //bit_count = bit_count + 1'b1; //Se dice que ya se concateno 1 bit mas
-                            next_contador = next_contador + 1'b1; //Al ser contador de 4 bits, a los 15 se reinicia con el +1
-                            if(bit_count == 3'b111) //Si es 7 bit count significa que ya paso los 8 bits.
-                            begin 
-                                next_estado = STOP; //Quiere decir que el proximo bit va a ser de STOP
-                                next_bit_count = 1'b0;
-                                rx_done_tick = 1'b0;
-                            end 
-                            else
-                                next_bit_count = next_bit_count + 1'b1; //Se dice que ya se concateno 1 bit mas                   
-                        end                            
-                    end
-                STOP:
-                    begin
-                        next_contador = next_contador + 1'b1;
-                        if(contador == 4'b1111)
-                        begin
-                           rx_done_tick = 1'b1;
-                           next_estado = IDLE; //Va a quedar en IDLE nuevamente hasta que se vacie el dato
-                           next_contador = 1'b1; //se reinicia el contador
-                        end 
-                    end
-                default: 
-                    begin
-                        rx_done_tick = 1'b0; 
-                        next_estado = IDLE; //Esta todo en 0 va a pasar a estado de IDLE y esperar a los 7 ticks
-                        next_contador = 1'b0;
-                        next_bit_count = 1'b0; 
-                        dout = 1'b0;
-                    end             
-                endcase             
-        //end
+    START :
+    begin
+    dout = 0;
+    rx_done_tick = 0;
     end
-    
-    //Instanciacion de modulos
-   // baud_rate_gen baud_rate_gen(.o_tick(s_tick));
-    
+    DATA :
+    begin
+    dout = 0;
+    rx_done_tick = 0;
+    end
+    STOP :
+    begin
+    dout = b_reg;//Set dout and done flag        
+    rx_done_tick = done_reg;
+    end
+    default :
+    dout = 0;
+endcase
+
 endmodule
-
