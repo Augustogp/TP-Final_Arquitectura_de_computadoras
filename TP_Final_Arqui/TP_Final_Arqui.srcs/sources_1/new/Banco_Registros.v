@@ -77,7 +77,7 @@ task reset_all;
     begin:reset
       integer reg_index;
         for (reg_index = 0; reg_index < REG_DEPTH; reg_index = reg_index + 1)
-          registers[reg_index] = {N_BITS_DATA{1'b0}};
+          registers[reg_index] <= {N_BITS_DATA{1'b0}};
         o_read_data1  <=  {N_BITS_DATA{1'b0}};
         o_read_data2  <=  {N_BITS_DATA{1'b0}};
     end

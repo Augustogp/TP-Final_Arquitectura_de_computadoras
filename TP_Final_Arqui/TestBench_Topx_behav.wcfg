@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="26204132567fs"></ZoomStartTime>
-      <ZoomEndTime time="31802288161fs"></ZoomEndTime>
-      <Cursor1Time time="27918910000fs"></Cursor1Time>
+      <ZoomStartTime time="15406681227fs"></ZoomStartTime>
+      <ZoomEndTime time="34223819755fs"></ZoomEndTime>
+      <Cursor1Time time="31087630000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="124"></NameColumnWidth>
+      <NameColumnWidth column_width="120"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="81" />
+   <WVObjectSize size="85" />
    <wvobject fp_name="/TestBench_Topx/tb_clock" type="logic">
       <obj_property name="ElementShortName">tb_clock</obj_property>
       <obj_property name="ObjectShortName">tb_clock</obj_property>
@@ -168,6 +168,22 @@
    <wvobject fp_name="/TestBench_Topx/top/top_mem/Data_Memory/registers" type="array">
       <obj_property name="ElementShortName">registers[31:0][31:0]</obj_property>
       <obj_property name="ObjectShortName">registers[31:0][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_mem/Data_Memory/i_addr_wr" type="array">
+      <obj_property name="ElementShortName">i_addr_wr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_addr_wr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_mem/Data_Memory/i_data_wr" type="array">
+      <obj_property name="ElementShortName">i_data_wr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_data_wr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_ex/top3_read_data2_out" type="array">
+      <obj_property name="ElementShortName">top3_read_data2_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">top3_read_data2_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_ex/top3_write_addr_out" type="array">
+      <obj_property name="ElementShortName">top3_write_addr_out[4:0]</obj_property>
+      <obj_property name="ObjectShortName">top3_write_addr_out[4:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/top2_rt_out" type="array">
       <obj_property name="ElementShortName">top2_rt_out[4:0]</obj_property>
