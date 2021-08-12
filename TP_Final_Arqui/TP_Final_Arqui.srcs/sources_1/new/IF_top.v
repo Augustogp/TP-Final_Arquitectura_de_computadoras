@@ -25,7 +25,6 @@ module IF_top#(
         parameter   N_BITS_PC = 32,         // Bits del PC
         parameter   N_BITS_INST = 32,       // Bits de instruccion
         parameter   N_BITS_REG = 32,        // Bits de registros
-        parameter   N_BITS_D = $clog2(N_BITS_REG),
         parameter   N_BITS_INST_INDEX = 26, // Bits de indice de instruccion
         parameter   CANT_SUMADOR = 1        // Cantidad a sumar  en sumador 
         
@@ -34,7 +33,7 @@ module IF_top#(
         // Inputs
         input   wire                        top1_clock,
         input   wire                        top1_reset,
-        input   wire [N_BITS_D - 1 : 0]    top1_write_addr,     // Direccion de escritura de instruccion
+        input   wire [N_BITS_PC - 1 : 0]    top1_write_addr,     // Direccion de escritura de instruccion
         input   wire [N_BITS_INST - 1 : 0]  top1_write_data,     // Instruccion a escribir en memoria de instrucciones
         input   wire [N_BITS_PC - 1 : 0]    top1_pc_offset,      // PC <= PC + 1 + Offset 
         input   wire [N_BITS_REG - 1 : 0]   top1_pc_register,    // PC <= rs (read_data1_out)
@@ -57,7 +56,7 @@ module IF_top#(
     
     // Cables internos
     wire [N_BITS_PC - 1 :0]     wire_mux_pc;        // Salida de multiplexor que es la entrada de PC
-    wire [N_BITS_D - 1 :0]     wire_pc_mem;        // Salida de PC que es la entrada de la memoria y del sumador 
+    wire [N_BITS_PC - 1 :0]     wire_pc_mem;        // Salida de PC que es la entrada de la memoria y del sumador 
     wire [N_BITS_PC - 1 :0]     wire_index_inst;    // Indice de la instruccion, va a entrar en mux
     
     // TOP IF

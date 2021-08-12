@@ -181,9 +181,7 @@ module Unidad_Debug#(
     end
     
     // Logica de salida
-    always@(*)begin
-        if(i_UD_reset == 0)
-        begin       
+    always@(*)begin       
         case (reg_estado)
             ESPERA: begin
                 o_write_data = o_write_data;
@@ -220,7 +218,6 @@ module Unidad_Debug#(
                 o_mem_read_e = 1;
             end
         endcase
-        end
     end
     
 endmodule

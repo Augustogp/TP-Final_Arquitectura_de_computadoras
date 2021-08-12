@@ -129,7 +129,7 @@ module Top#(
     wire    [N_BITS_REGISTERS_ADDR - 1 : 0] MEM_wr_addr;
     
     //-------------MEM out to Unidad Cortocircuitos-----------------------
-    wire    [N_BITS_RD - 1 : 0]         MEM_rd;
+    wire    [N_BITS_REGISTERS - 1 : 0]  MEM_rd;
     wire                                MEM_WB_reg_wr;
     
     //-------------WB connections-----------------------
