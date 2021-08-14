@@ -166,8 +166,8 @@ module Top#(
         .top1_reset(i_reset),
         .top1_write_addr(wr_addr),     // Direccion de escritura de instruccion
         .top1_write_data(instr_data_wr),     // Instruccion a escribir en memoria de instrucciones
-        .top1_pc_offset(EX_pc_adder),      // PC <= PC + 1 + Offset 
-        .top1_pc_register(rd_data1_out),    // PC <= rs (read_data1_out)
+        .top1_pc_offset(EX_mem_pc_adder),      // PC <= PC + 1 + Offset 
+        .top1_pc_register(ID_rd_data1),    // PC <= rs (read_data1_out)
         .top1_mux_selector(ID_pc_src),   // Selector del multiplexor
         .top1_write_e(wr_enable),        // Enable para escritura debug
         .top1_read_e(rd_enable),         // Enable para lecutra debug
@@ -299,7 +299,7 @@ module Top#(
         .top4_addr(EX_alu_result),
         .top4_write_data(EX_rd_data),
         .top4_write_addr(EX_wr_addr),
-        .top4_pc_adder(EX_mem_pc_adder),
+        .top4_pc_adder(EX_pc_adder),
         .top4_rd(EX_rd),
         //Inputs control
         .top4_mem_wr(EX_mem_wr), 

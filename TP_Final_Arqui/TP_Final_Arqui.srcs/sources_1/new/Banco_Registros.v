@@ -38,6 +38,7 @@ module Banco_Registros#(
     );
     
     reg     [REG_DEPTH - 1 : 0]   registers   [N_BITS_DATA - 1 : 0];
+    reg    [N_BITS_DATA - 1 : 0]    o_read_data1_next, o_read_data2_next;
     
     always@(negedge i_clock)
     begin
@@ -45,32 +46,41 @@ module Banco_Registros#(
         begin
             reset_all();
         end
+        else
+        begin
+            o_read_data1 <= o_read_data1_next;
+            o_read_data2 <= o_read_data2_next;
+        end
         
+    end
+    
+    always@(*)
+    begin
+        o_read_data1_next = o_read_data1;
+        o_read_data2_next = o_read_data2;
         if(i_enable)
         begin
             if(i_control_wr) //Escribir datos en los registros
             begin
-                registers[i_reg_wr] <= i_data_wr;
+                registers[i_reg_wr] = i_data_wr;
             end
             if(i_reg_wr == i_ra) //Si la direccon de ra o rb es igual a la direccion de escritura, se coloca el contenido a la salida para evitar dependencias de WB
             begin
-                o_read_data1 <= i_data_wr;
-                o_read_data2 <= registers[i_rb];
+                o_read_data1_next = i_data_wr;
+                o_read_data2_next = registers[i_rb];
             end
             else if(i_reg_wr == i_rb)
             begin
-                o_read_data1 <= registers[i_ra];
-                o_read_data2 <= i_data_wr;
+                o_read_data1_next = registers[i_ra];
+                o_read_data2_next = i_data_wr;
             end
             else
             begin
-                o_read_data1 <= registers[i_ra];
-                o_read_data2 <= registers[i_rb];
+                o_read_data1_next = registers[i_ra];
+                o_read_data2_next = registers[i_rb];
             end
         end
-        else
-            o_read_data1 <= o_read_data1;
-            o_read_data2 <= o_read_data2;
+     
     end
     
 task reset_all;
