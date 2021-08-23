@@ -315,8 +315,8 @@ module Top#(
         //Outputs control
         .top4_pc_adder_out(MEM_pc_adder),
         .top4_mem_to_reg_out(MEM_mem_to_reg),
-        .top4_reg_write_out(MEM_WB_reg_wr),
-        .top4_rd_out(MEM_rd)
+        .top4_reg_write_out(MEM_WB_reg_wr)
+        //.top4_rd_out(MEM_rd)
     );
     
     WB_top top_wb

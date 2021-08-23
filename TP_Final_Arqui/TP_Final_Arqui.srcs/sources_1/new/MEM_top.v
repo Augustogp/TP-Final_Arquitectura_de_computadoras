@@ -47,8 +47,8 @@ module MEM_top#(
         //Outputs control
         output  reg     [N_BITS_PC_ADDER - 1 : 0]       top4_pc_adder_out,
         output  reg     [1 : 0]                         top4_mem_to_reg_out,
-        output  reg                                     top4_reg_write_out,
-        output  reg     [N_BITS_RD_WIDTH - 1 : 0]       top4_rd_out
+        output  reg                                     top4_reg_write_out
+      //  output  reg     [N_BITS_RD_WIDTH - 1 : 0]       top4_rd_out
     );
     
     //Cable para la salida
@@ -79,7 +79,7 @@ module MEM_top#(
             top4_mem_to_reg_out     <=  top4_mem_to_reg;
             top4_reg_write_out      <=  top4_reg_wr;
             data_write              <=  top4_write_data;
-            top4_rd_out             <=  top4_rd;
+        //    top4_rd_out             <=  top4_rd;
         end
         
         else
@@ -91,7 +91,7 @@ module MEM_top#(
             top4_mem_to_reg_out     <=  top4_mem_to_reg_out;
             top4_reg_write_out      <=  top4_reg_write_out;
             data_write              <=  data_write;
-            top4_rd_out             <=  top4_rd_out;
+        //    top4_rd_out             <=  top4_rd_out;
         end
     end
     

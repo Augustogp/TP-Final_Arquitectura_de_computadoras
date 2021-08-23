@@ -46,7 +46,7 @@ module Banco_Registros#(
         begin
             reset_all();
         end
-        else
+        if(i_enable)
         begin
             o_read_data1 <= o_read_data1_next;
             o_read_data2 <= o_read_data2_next;
@@ -58,8 +58,8 @@ module Banco_Registros#(
     begin
         o_read_data1_next = o_read_data1;
         o_read_data2_next = o_read_data2;
-        if(i_enable)
-        begin
+        //if(i_enable)
+        //begin
             if(i_control_wr) //Escribir datos en los registros
             begin
                 registers[i_reg_wr] = i_data_wr;
@@ -79,7 +79,7 @@ module Banco_Registros#(
                 o_read_data1_next = registers[i_ra];
                 o_read_data2_next = registers[i_rb];
             end
-        end
+        //end
      
     end
     

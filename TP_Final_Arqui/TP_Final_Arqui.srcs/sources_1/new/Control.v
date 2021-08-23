@@ -301,6 +301,18 @@ module Control#(
                             o_branch = 1'b0;
                             //o_mem_to_reg = 2'b10;           //WB
                         end
+                        default:
+                        begin
+                            o_pc_src = 2'b00;               //IF
+                            o_reg_wr = 1'b0;                //ID
+                            o_alu_src = 2'b00;              //EX
+                            o_alu_op = 'b0;
+                            o_reg_dst = 2'b00;
+                            o_mem_rd = 1'b0;                //MEM
+                            o_mem_wr = 1'b0;
+                            o_branch = 1'b0;
+                            o_mem_to_reg = 2'b00;           //WB
+                        end
                     endcase
                 end
                 
@@ -487,7 +499,7 @@ module Control#(
                 end
                 BEQ_OPCODE:
                 begin
-                    //o_pc_src = 2'b00;               //IF
+                    o_pc_src = 2'b01;               //IF
                     o_reg_wr = 1'b0;                //ID
                     o_alu_src = 2'b00;              //EX
                     o_alu_op = BEQ_ALUCODE;

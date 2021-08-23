@@ -57,7 +57,7 @@ module EX_top#(
         
         // Outputs
         output reg [N_BITS_PC - 1 : 0]          top3_pc_sumador1_out,   // Es la entrada al sumador (pc_sumador_in)
-        output reg [N_BITS_PC - 1 : 0]          top3_pc_sumador2_out,   // Es la salida del sumador
+        output wire [N_BITS_PC - 1 : 0]          top3_pc_sumador2_out,   // Es la salida del sumador
         output reg [N_BITS_REG - 1 : 0]         top3_alu_result_out,    // Resultado de la ALU
         output reg [N_BITS_REG - 1 : 0]         top3_read_data2_out,    // Dato 2 del banco de registros que se pone como salida 
         output reg [N_BITS_REG_ADDR - 1 : 0]    top3_write_addr_out,    // Salida de mux3 con la direccion de escritura
@@ -79,13 +79,13 @@ module EX_top#(
     wire [N_BITS_PC - 1 : 0]        cable_pc_sumador_out;    
     wire                            cable_Zero_out;
     wire [N_BITS_REG - 1 : 0]       cable_Alu_result_out;
-    wire [N_BITS_REG_ADDR - 1 : 0]  cable_write_addr_out;   
-
+    wire [N_BITS_REG_ADDR - 1 : 0]  cable_write_addr_out;
+       
  
     always@(posedge top3_clock) begin
         if(top3_reset) begin
             top3_pc_sumador1_out    <= 0;
-            top3_pc_sumador2_out    <= 0; 
+            //top3_pc_sumador2_out    <= 0; 
             top3_alu_result_out     <= 0;
             top3_read_data2_out     <= 0; 
             top3_write_addr_out     <= 0;
@@ -101,7 +101,7 @@ module EX_top#(
         else begin
             if(top3_ID_EX_reset && top3_enable) begin
                 top3_pc_sumador1_out    <= top3_pc_sumador1_out;
-                top3_pc_sumador2_out    <= top3_pc_sumador2_out; 
+              //  top3_pc_sumador2_out    <= cable_pc_sumador_out; 
                 top3_alu_result_out     <= top3_alu_result_out;
                 top3_read_data2_out     <= top3_read_data2_out; 
                 top3_write_addr_out     <= top3_write_addr_out;
@@ -111,11 +111,11 @@ module EX_top#(
                 top3_MemWrite           <= top3_MemWrite;
                 top3_MemtoReg           <= top3_MemtoReg;
                 top3_RegWrite           <= top3_RegWrite;
-                top3_zero_out           <= top3_zero_out;
+                top3_zero_out           <= cable_Zero_out;
             end
             else if (top3_enable) begin
                 top3_pc_sumador1_out    <= top3_pc_sumador_in;
-                top3_pc_sumador2_out    <= cable_pc_sumador_out; 
+             //   top3_pc_sumador2_out    <= cable_pc_sumador_out; 
                 top3_alu_result_out     <= cable_Alu_result_out;
                 top3_read_data2_out     <= top3_read_data2_in; 
                 top3_write_addr_out     <= cable_write_addr_out;
@@ -135,7 +135,7 @@ module EX_top#(
     Sumador Sumador_EX(
         .in_sum_1(top3_pc_sumador_in),
         .in_sum_2(top3_offset),
-        .out_sum_mux(cable_pc_sumador_out)
+        .out_sum_mux(top3_pc_sumador2_out)
     );       
 
     Mux_2a1 Mux1_EX(

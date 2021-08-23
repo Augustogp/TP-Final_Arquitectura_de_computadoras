@@ -59,29 +59,34 @@ module IF_top#(
     wire [N_BITS_PC - 1 :0]     wire_pc_mem;        // Salida de PC que es la entrada de la memoria y del sumador 
     wire [N_BITS_PC - 1 :0]     wire_index_inst;    // Indice de la instruccion, va a entrar en mux
     
+    reg  [1 : 0]                reg_mux_selector;
+    
     // TOP IF
     always@(posedge top1_clock) begin
         if(top1_reset || top1_IF_ID_reset)
         begin
             top1_sumador_out <= 0;
             top1_memoria_out <= 'haaaaaaaa; // Se le asigna una instruccion cualquiera
+            reg_mux_selector <= 0;
         end
         else if(top1_IF_ID_write) // Si esta habilitada desde el control para escritura
         begin 
             top1_sumador_out <= wire_sumador_out;  
             top1_memoria_out <= wire_memoria_out;
+            reg_mux_selector <= top1_mux_selector;
         end
         else
         begin
             top1_sumador_out <= top1_sumador_out;  
-            top1_memoria_out <= top1_memoria_out;        
+            top1_memoria_out <= top1_memoria_out;
+            reg_mux_selector <= reg_mux_selector;        
         end
     end
     
     // Instancias de modulos
     
     Mux_4a1 Mux_4a1_IF(
-        .in_mux_control(top1_mux_selector),
+        .in_mux_control(reg_mux_selector),
         .in_mux_1(wire_sumador_out),
         .in_mux_2(top1_pc_offset),
         .in_mux_3(wire_index_inst),

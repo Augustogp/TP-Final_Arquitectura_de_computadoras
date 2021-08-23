@@ -74,7 +74,7 @@ module Unidad_Debug#(
         o_write_data <= 0;
         o_write_addr <= 0;
         o_mem_write_e <= 0;
-        o_mem_read_e <= 0;
+        //o_mem_read_e <= 0;
         step_flag <= 0;
         o_mem_enable <= 0;
         mem_enable_aux <= 0;

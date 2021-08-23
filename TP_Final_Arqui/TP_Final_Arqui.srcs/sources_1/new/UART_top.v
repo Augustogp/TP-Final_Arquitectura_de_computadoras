@@ -34,7 +34,7 @@ module UART_top#(
         
         // Outputs
         output wire top_uart_read_en, top_uart_tx_done,
-        output wire top_uart_write_en, top_uart_tick,
+        output wire top_uart_write_en,
         output wire top_uart_tx_out,
         output wire [N_BITS_PC - 1 : 0] top_uart_write_addr,
         output wire [N_BITS_INST - 1 : 0] top_uart_data_write,
@@ -42,7 +42,7 @@ module UART_top#(
     );
     
     // Cables internos
-    wire wire_rx_done;
+    wire wire_rx_done, top_uart_tick;
     wire [N_BITS_WORD - 1:0] reg_rx_out;
     
     

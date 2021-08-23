@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="23737955346fs"></ZoomStartTime>
-      <ZoomEndTime time="32551116334fs"></ZoomEndTime>
-      <Cursor1Time time="28597516435fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="50000000001fs"></ZoomEndTime>
+      <Cursor1Time time="50000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="133"></NameColumnWidth>
-      <ValueColumnWidth column_width="63"></ValueColumnWidth>
+      <NameColumnWidth column_width="130"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="100" />
+   <WVObjectSize size="117" />
    <wvobject fp_name="/TestBench_Topx/tb_clock" type="logic">
       <obj_property name="ElementShortName">tb_clock</obj_property>
       <obj_property name="ObjectShortName">tb_clock</obj_property>
@@ -43,22 +43,6 @@
    <wvobject fp_name="/TestBench_Topx/tb_tx_done" type="logic">
       <obj_property name="ElementShortName">tb_tx_done</obj_property>
       <obj_property name="ObjectShortName">tb_tx_done</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TestBench_Topx/N_BITS" type="array">
-      <obj_property name="ElementShortName">N_BITS[31:0]</obj_property>
-      <obj_property name="ObjectShortName">N_BITS[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TestBench_Topx/N_BITS_INSTR" type="array">
-      <obj_property name="ElementShortName">N_BITS_INSTR[31:0]</obj_property>
-      <obj_property name="ObjectShortName">N_BITS_INSTR[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TestBench_Topx/N_BITS_MEMORY_DEPTH" type="array">
-      <obj_property name="ElementShortName">N_BITS_MEMORY_DEPTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">N_BITS_MEMORY_DEPTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TestBench_Topx/STEP_BY_STEP_CODE" type="array">
-      <obj_property name="ElementShortName">STEP_BY_STEP_CODE[31:0]</obj_property>
-      <obj_property name="ObjectShortName">STEP_BY_STEP_CODE[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_uart/Unidad_Debug/o_write_addr" type="array">
       <obj_property name="ElementShortName">o_write_addr[31:0]</obj_property>
@@ -181,6 +165,7 @@
       <obj_property name="ObjectShortName">registers[31:0][31:0]</obj_property>
       <obj_property name="CustomSignalColor">#00FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/i_reg_wr" type="array">
       <obj_property name="ElementShortName">i_reg_wr[4:0]</obj_property>
@@ -265,42 +250,116 @@
    <wvobject fp_name="/TestBench_Topx/top/top_if/PC/pc" type="array">
       <obj_property name="ElementShortName">pc[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_if/Mux_4a1_IF/in_mux_control" type="array">
+      <obj_property name="ElementShortName">in_mux_control[1:0]</obj_property>
+      <obj_property name="ObjectShortName">in_mux_control[1:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_if/Mux_4a1_IF/in_mux_1" type="array">
+      <obj_property name="ElementShortName">in_mux_1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">in_mux_1[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_if/Mux_4a1_IF/in_mux_2" type="array">
+      <obj_property name="ElementShortName">in_mux_2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">in_mux_2[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_if/Mux_4a1_IF/in_mux_3" type="array">
+      <obj_property name="ElementShortName">in_mux_3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">in_mux_3[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_if/Mux_4a1_IF/in_mux_4" type="array">
+      <obj_property name="ElementShortName">in_mux_4[31:0]</obj_property>
+      <obj_property name="ObjectShortName">in_mux_4[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_if/Mux_4a1_IF/out_mux" type="array">
+      <obj_property name="ElementShortName">out_mux[31:0]</obj_property>
+      <obj_property name="ObjectShortName">out_mux[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_if/Mem_instruction/out_mem" type="array">
       <obj_property name="ElementShortName">out_mem[31:0]</obj_property>
       <obj_property name="ObjectShortName">out_mem[31:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/i_clock" type="logic">
+      <obj_property name="ElementShortName">i_clock</obj_property>
+      <obj_property name="ObjectShortName">i_clock</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/i_enable" type="logic">
+      <obj_property name="ElementShortName">i_enable</obj_property>
+      <obj_property name="ObjectShortName">i_enable</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/i_ra" type="array">
       <obj_property name="ElementShortName">i_ra[4:0]</obj_property>
       <obj_property name="ObjectShortName">i_ra[4:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/i_rb" type="array">
       <obj_property name="ElementShortName">i_rb[4:0]</obj_property>
       <obj_property name="ObjectShortName">i_rb[4:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/i_reg_wr" type="array">
       <obj_property name="ElementShortName">i_reg_wr[4:0]</obj_property>
       <obj_property name="ObjectShortName">i_reg_wr[4:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/i_data_wr" type="array">
       <obj_property name="ElementShortName">i_data_wr[31:0]</obj_property>
       <obj_property name="ObjectShortName">i_data_wr[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/o_read_data1" type="array">
       <obj_property name="ElementShortName">o_read_data1[31:0]</obj_property>
       <obj_property name="ObjectShortName">o_read_data1[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/o_read_data2" type="array">
       <obj_property name="ElementShortName">o_read_data2[31:0]</obj_property>
       <obj_property name="ObjectShortName">o_read_data2[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/o_read_data1_next" type="array">
       <obj_property name="ElementShortName">o_read_data1_next[31:0]</obj_property>
       <obj_property name="ObjectShortName">o_read_data1_next[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Registers/o_read_data2_next" type="array">
       <obj_property name="ElementShortName">o_read_data2_next[31:0]</obj_property>
       <obj_property name="ObjectShortName">o_read_data2_next[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_id/top2_ID_write_in" type="logic">
+      <obj_property name="ElementShortName">top2_ID_write_in</obj_property>
+      <obj_property name="ObjectShortName">top2_ID_write_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/ID_rd_data1" type="array">
+      <obj_property name="ElementShortName">ID_rd_data1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ID_rd_data1[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_ex/Mux2_EX/in_mux_1" type="array">
       <obj_property name="ElementShortName">in_mux_1[31:0]</obj_property>
@@ -326,6 +385,18 @@
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_id/Control/i_branch" type="logic">
+      <obj_property name="ElementShortName">i_branch</obj_property>
+      <obj_property name="ObjectShortName">i_branch</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_id/Control/i_zero" type="logic">
+      <obj_property name="ElementShortName">i_zero</obj_property>
+      <obj_property name="ObjectShortName">i_zero</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/Control/i_function" type="array">
       <obj_property name="ElementShortName">i_function[5:0]</obj_property>
       <obj_property name="ObjectShortName">i_function[5:0]</obj_property>
@@ -338,9 +409,31 @@
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_id/Control/o_pc_src" type="array">
+      <obj_property name="ElementShortName">o_pc_src[1:0]</obj_property>
+      <obj_property name="ObjectShortName">o_pc_src[1:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_id/Control/if_id_reset" type="logic">
+      <obj_property name="ElementShortName">if_id_reset</obj_property>
+      <obj_property name="ObjectShortName">if_id_reset</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_id/Control/o_branch" type="logic">
+      <obj_property name="ElementShortName">o_branch</obj_property>
+      <obj_property name="ObjectShortName">o_branch</obj_property>
+      <obj_property name="CustomSignalColor">#D2691E</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/top2_alu_src_out" type="array">
       <obj_property name="ElementShortName">top2_alu_src_out[1:0]</obj_property>
       <obj_property name="ObjectShortName">top2_alu_src_out[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_if/top1_IF_ID_write" type="logic">
+      <obj_property name="ElementShortName">top1_IF_ID_write</obj_property>
+      <obj_property name="ObjectShortName">top1_IF_ID_write</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_id/top2_instruction_in" type="array">
       <obj_property name="ElementShortName">top2_instruction_in[31:0]</obj_property>
@@ -357,6 +450,28 @@
    <wvobject fp_name="/TestBench_Topx/top/top_id/top2_offset_out" type="array">
       <obj_property name="ElementShortName">top2_offset_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">top2_offset_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_ex/Sumador_EX/in_sum_1" type="array">
+      <obj_property name="ElementShortName">in_sum_1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">in_sum_1[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_ex/Sumador_EX/in_sum_2" type="array">
+      <obj_property name="ElementShortName">in_sum_2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">in_sum_2[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_ex/Sumador_EX/out_sum_mux" type="array">
+      <obj_property name="ElementShortName">out_sum_mux[31:0]</obj_property>
+      <obj_property name="ObjectShortName">out_sum_mux[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/EX_mem_pc_adder" type="array">
+      <obj_property name="ElementShortName">EX_mem_pc_adder[31:0]</obj_property>
+      <obj_property name="ObjectShortName">EX_mem_pc_adder[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_ex/Mux5_EX/in_mux_1" type="array">
       <obj_property name="ElementShortName">in_mux_1[31:0]</obj_property>
@@ -391,6 +506,12 @@
    <wvobject fp_name="/TestBench_Topx/top/top_ex/ALU_EX/Alu_result_out" type="array">
       <obj_property name="ElementShortName">Alu_result_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">Alu_result_out[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_ex/ALU_EX/Zero_out" type="logic">
+      <obj_property name="ElementShortName">Zero_out</obj_property>
+      <obj_property name="ObjectShortName">Zero_out</obj_property>
       <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
