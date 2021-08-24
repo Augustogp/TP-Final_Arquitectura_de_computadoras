@@ -41,7 +41,8 @@ module Top#(
         input   wire    i_clock, i_reset, i_start, i_tx_start,
         input   wire    [N_BITS_WORD - 1 : 0]   i_tx,
         
-        output  wire    tx_done
+        output  wire    tx_done,
+        output  wire    [N_BITS_REGISTERS - 1 : 0]  WB_wr_data
     );
     
     //-------------UART out to IF in-----------------------
@@ -135,7 +136,7 @@ module Top#(
     //-------------WB connections-----------------------
     
     //-------------WB out ID in-----------------------
-    wire    [N_BITS_REGISTERS - 1 : 0]  WB_wr_data;
+    
     
     
     //-------------MODULES-----------------------

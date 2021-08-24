@@ -133,6 +133,15 @@ begin
 				else 
 					s_next  =  s_reg  +  1;//contador de ticks + 1
 			end
+		default: 
+			begin
+				state_next  =  state_reg; 
+                tx_done_reg  =  1'b0; 
+                s_next  =  0; 
+                n_next  =  0; 
+                b_next  =  0; 
+                tx_next = 0;
+			end
 	endcase
 
 end

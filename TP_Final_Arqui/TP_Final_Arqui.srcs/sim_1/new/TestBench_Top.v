@@ -23,7 +23,7 @@
 module TestBench_Topx#(
         parameter   N_BITS = 8,
         parameter   N_BITS_INSTR = 32,
-        parameter   N_BITS_MEMORY_DEPTH = 12
+        parameter   N_BITS_MEMORY_DEPTH = 13
     );
     
     //-----------------TOP-INPUTS-------------------

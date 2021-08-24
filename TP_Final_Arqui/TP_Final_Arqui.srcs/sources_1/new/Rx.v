@@ -118,6 +118,14 @@ begin
 					end 
 				else 
 					s_next  =  s_reg  +  1;//contador de s_ticks + 1
+		default:
+		begin
+            state_next  =  IDLE; 
+            done_reg  =  0; 
+            s_next  =  0; 
+            n_next  =  0; 
+            b_next  =  0; 
+        end
 	endcase
 
 end

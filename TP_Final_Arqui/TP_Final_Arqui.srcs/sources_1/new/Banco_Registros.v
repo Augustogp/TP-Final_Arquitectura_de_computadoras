@@ -42,10 +42,6 @@ module Banco_Registros#(
     
     always@(negedge i_clock)
     begin
-        if(i_reset)
-        begin
-            reset_all();
-        end
         if(i_enable)
         begin
             o_read_data1 <= o_read_data1_next;
@@ -56,40 +52,46 @@ module Banco_Registros#(
     
     always@(*)
     begin
-        o_read_data1_next = o_read_data1;
-        o_read_data2_next = o_read_data2;
-        //if(i_enable)
-        //begin
-            if(i_control_wr) //Escribir datos en los registros
-            begin
-                registers[i_reg_wr] = i_data_wr;
-            end
-            if(i_reg_wr == i_ra) //Si la direccon de ra o rb es igual a la direccion de escritura, se coloca el contenido a la salida para evitar dependencias de WB
-            begin
-                o_read_data1_next = i_data_wr;
-                o_read_data2_next = registers[i_rb];
-            end
-            else if(i_reg_wr == i_rb)
-            begin
-                o_read_data1_next = registers[i_ra];
-                o_read_data2_next = i_data_wr;
-            end
-            else
-            begin
-                o_read_data1_next = registers[i_ra];
-                o_read_data2_next = registers[i_rb];
-            end
-        //end
+        if(i_reset)
+        begin
+            reset_all();
+        end
+        else
+        begin
+            o_read_data1_next = o_read_data1;
+            o_read_data2_next = o_read_data2;
+            //if(i_enable)
+            //begin
+                if(i_control_wr) //Escribir datos en los registros
+                begin
+                    registers[i_reg_wr] = i_data_wr;
+                end
+                if(i_reg_wr == i_ra) //Si la direccon de ra o rb es igual a la direccion de escritura, se coloca el contenido a la salida para evitar dependencias de WB
+                begin
+                    o_read_data1_next = i_data_wr;
+                    o_read_data2_next = registers[i_rb];
+                end
+                else if(i_reg_wr == i_rb)
+                begin
+                    o_read_data1_next = registers[i_ra];
+                    o_read_data2_next = i_data_wr;
+                end
+                else
+                begin
+                    o_read_data1_next = registers[i_ra];
+                    o_read_data2_next = registers[i_rb];
+                end
+        end
      
     end
     
 task reset_all;
     begin:reset
-      integer reg_index;
+        integer reg_index;
         for (reg_index = 0; reg_index < REG_DEPTH; reg_index = reg_index + 1)
           registers[reg_index] = {N_BITS_DATA{1'b0}};
-        o_read_data1  <=  {N_BITS_DATA{1'b0}};
-        o_read_data2  <=  {N_BITS_DATA{1'b0}};
+        o_read_data1_next  =  {N_BITS_DATA{1'b0}};
+        o_read_data2_next  =  {N_BITS_DATA{1'b0}};
     end
 endtask
     

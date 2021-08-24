@@ -71,9 +71,9 @@ module Unidad_Debug#(
         inst_buffer <= 0;
         cont_palabras <= 0;
         inst_addr_cont <= 0;
-        o_write_data <= 0;
-        o_write_addr <= 0;
-        o_mem_write_e <= 0;
+   //     o_write_data <= 0;
+   //     o_write_addr <= 0;
+  //      o_mem_write_e <= 0;
         //o_mem_read_e <= 0;
         step_flag <= 0;
         o_mem_enable <= 0;
@@ -85,8 +85,8 @@ module Unidad_Debug#(
         inst_buffer     <= inst_buffer_next;
         cont_palabras   <= cont_palabras_next;
         inst_addr_cont  <= inst_addr_cont_next;
-        o_write_data    <= reg_inst_next;
-        o_write_addr    <= reg_addr_next;
+ //       o_write_data    <= reg_inst_next;
+//        o_write_addr    <= reg_addr_next;
         step_flag       <= step_flag_next;
         step_mode       <= step_mode_next;
         o_mem_enable    <= mem_enable_next;
@@ -177,11 +177,15 @@ module Unidad_Debug#(
                 inst_addr_cont_next = inst_addr_cont_next;
                 cont_palabras_next = cont_palabras_next;                        
             end
+            default:
+            begin
+                reg_estado_next = ESPERA;
+                inst_buffer_next = 0;
+                cont_palabras_next = 0;
+                inst_addr_cont_next = 0;
+            end
         endcase
-    end
-    
-    // Logica de salida
-    always@(*)begin       
+        
         case (reg_estado)
             ESPERA: begin
                 o_write_data = o_write_data;
@@ -212,12 +216,18 @@ module Unidad_Debug#(
             end
             
             default: begin
-                o_write_data = 0; 
-                o_write_addr = 0;
+                reg_inst_next = 0; 
+                reg_addr_next = 0;
                 o_mem_write_e = 0;
                 o_mem_read_e = 1;
             end
         endcase
     end
     
+    /*
+    // Logica de salida
+    always@(*)begin       
+        
+    end
+    */
 endmodule
