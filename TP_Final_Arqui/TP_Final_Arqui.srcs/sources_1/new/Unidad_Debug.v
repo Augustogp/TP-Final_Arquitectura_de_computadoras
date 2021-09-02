@@ -47,7 +47,7 @@ module Unidad_Debug#(
     localparam LISTO        = 5'b0100;            // Instrucción cargada
     localparam STEP_MODO    = 5'b1000;             // Setea el modo de la señal de clock (paso a paso o continuo)
     localparam STEP_BY_STEP_CODE    = 'b10111011;
-    localparam CONTINOUS_CODE       = 'b10111011;
+    localparam CONTINOUS_CODE       = 'b10111010;
     
     //Registros internos
     reg [N_BITS_INST - 1 : 0]   reg_inst_next;
@@ -71,10 +71,10 @@ module Unidad_Debug#(
         inst_buffer <= 0;
         cont_palabras <= 0;
         inst_addr_cont <= 0;
-   //     o_write_data <= 0;
-   //     o_write_addr <= 0;
-  //      o_mem_write_e <= 0;
-        //o_mem_read_e <= 0;
+       // o_write_data <= 0;
+     //   o_write_addr <= 0;
+     //   o_mem_write_e <= 0;
+       // o_mem_read_e <= 0;
         step_flag <= 0;
         o_mem_enable <= 0;
         mem_enable_aux <= 0;
@@ -85,8 +85,8 @@ module Unidad_Debug#(
         inst_buffer     <= inst_buffer_next;
         cont_palabras   <= cont_palabras_next;
         inst_addr_cont  <= inst_addr_cont_next;
- //       o_write_data    <= reg_inst_next;
-//        o_write_addr    <= reg_addr_next;
+        o_write_data    <= reg_inst_next;
+        o_write_addr    <= reg_addr_next;
         step_flag       <= step_flag_next;
         step_mode       <= step_mode_next;
         o_mem_enable    <= mem_enable_next;
@@ -216,8 +216,8 @@ module Unidad_Debug#(
             end
             
             default: begin
-                reg_inst_next = 0; 
-                reg_addr_next = 0;
+                //reg_inst_next = 0; 
+                //reg_addr_next = 0;
                 o_mem_write_e = 0;
                 o_mem_read_e = 1;
             end

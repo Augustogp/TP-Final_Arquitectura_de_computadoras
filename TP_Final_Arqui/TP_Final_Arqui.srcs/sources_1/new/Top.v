@@ -38,10 +38,10 @@ module Top#(
         parameter   RD_SBIT = 11
     )
     (
-        input   wire    i_clock, i_reset, i_start, i_tx_start,
+        input   wire    i_clock, i_reset, i_reset_clk, i_start, i_tx_start,
         input   wire    [N_BITS_WORD - 1 : 0]   i_tx,
         
-        output  wire    tx_done,
+        output  wire    tx_done, o_locked,
         output  wire    [N_BITS_REGISTERS - 1 : 0]  WB_wr_data
     );
     
@@ -138,8 +138,22 @@ module Top#(
     //-------------WB out ID in-----------------------
     
     
+    //-------------Clock connections-----------------------
+    wire    o_clock;
+    
     
     //-------------MODULES-----------------------
+    /*
+    clk_wiz_0 clk_wiz 
+    (
+        // Clock out ports
+        .clk_out1(o_clock),
+        // Status and control signals
+        .reset(i_reset_clk),
+        .locked(o_locked),
+        // Clock in ports
+        .clk_in1(i_clock)
+    );*/
     
     UART_top top_uart
     (

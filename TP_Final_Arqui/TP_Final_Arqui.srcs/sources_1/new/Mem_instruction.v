@@ -25,8 +25,9 @@ module Mem_instruction#(
         
         parameter   N_BITS_I = 32,  // Ancho de instruccion
         parameter   N_BITS_C = 32,  // Numero de entradas de la memoria
-        parameter   N_BITS_MEMORY_DEPTH = 32,
-        parameter   N_BITS_D = $clog2(N_BITS_MEMORY_DEPTH)    // Log base 2 de la cantidad de entradas a memoria para asi direccionar
+        parameter   N_BITS_MEMORY_DEPTH = 14,
+        parameter   N_BITS_D = $clog2(N_BITS_MEMORY_DEPTH),    // Log base 2 de la cantidad de entradas a memoria para asi direccionar
+        parameter   INIT_FILE = "out.mem"                    
         
     )
     (
@@ -44,12 +45,48 @@ module Mem_instruction#(
     reg [N_BITS_C - 1 : 0] memoria_data [N_BITS_MEMORY_DEPTH - 1 : 0] ;//Memoria
     
     
+    generate
+    if (INIT_FILE != "") begin: use_init_file
+      initial
+        $readmemh(INIT_FILE, memoria_data, 0, N_BITS_MEMORY_DEPTH-1);
+    end else begin: init_bram_to_zero
+      integer ram_index;
+      initial
+        for (ram_index = 0; ram_index < N_BITS_MEMORY_DEPTH; ram_index = ram_index + 1)
+          memoria_data[ram_index] = {N_BITS_C{1'b0}};
+    end
+    endgenerate
+  
+    always @(negedge mem_write_e) begin
+        if(mem_write_e && mem_enable) // Si esta habilitada la memoria en modo escritura
+        begin
+          if((mem_write_addr == mem_write_addr) && (mem_write_data == mem_write_data)) //Hay que comprobar los inputs 
+            memoria_data[mem_write_addr] <= mem_write_data; // Se escribe en memmoria la instruccion  
+        end
+        else //Si no esta habilitada la escritura o no esta habilitada la memoria
+          out_mem <= out_mem;
+      end
+      
+      always @(posedge mem_clock)
+      begin
+          if(mem_read_e && mem_enable) // Si esta habilitada la memoria en modo lectura
+            begin
+                if((in_pc_mem == in_pc_mem) && (memoria_data[in_pc_mem] == memoria_data[in_pc_mem])) // Se comprueban los input                                      
+                begin
+                    if(mem_write_e && (mem_write_addr == mem_write_addr) && (mem_write_data == mem_write_data)) // Si esta activa la escritura tambien
+                        out_mem <= mem_write_data; // Se lee la direccion del debug que viene por escritura
+                    else
+                        out_mem <= memoria_data[in_pc_mem]; // Se lee la direccion a la que apunta el Program Counter
+                end           
+            end   
+      end
+    /*
     always@(negedge mem_clock) begin
         
-        if(mem_reset) begin 
-            resetear();
-        end
-        else
+      //  if(mem_reset) begin 
+      //      resetear();
+     //   end
+      //  else
             begin
                 // Escritura
                 if(mem_write_e && mem_enable) // Si esta habilitada la memoria en modo escritura
@@ -72,12 +109,12 @@ module Mem_instruction#(
                     end           
                 end
                 
-                else
+           //     else
                     out_mem <= out_mem;
             
             end
     end
-    
+    /*
     task resetear; // Se resetea la memoria
         begin : resetear
             integer fila;
@@ -85,6 +122,6 @@ module Mem_instruction#(
                 memoria_data[fila] <= 0;
             out_mem <= 0; // A la salida se le asigna un 0
         end
-    endtask
+    endtask¨*/
     
 endmodule
