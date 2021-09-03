@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
-// Date        : Wed Sep  1 20:41:55 2021
+// Date        : Fri Sep  3 19:59:56 2021
 // Host        : LAPTOP-ABVOIKNN running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode synth_stub
 //               c:/Users/augus/Documents/Git/TP-Final_Arquitectura_de_computadoras/TP_Final_Arqui/TP_Final_Arqui.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0_stub.v

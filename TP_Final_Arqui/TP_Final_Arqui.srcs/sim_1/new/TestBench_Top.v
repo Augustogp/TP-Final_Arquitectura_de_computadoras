@@ -27,11 +27,11 @@ module TestBench_Topx#(
     );
     
     //-----------------TOP-INPUTS-------------------
-    reg     tb_clock, tb_reset, tb_start, tb_tx_start, tb_locked, tb_reset_clk;
+    reg     tb_clock, tb_reset, tb_start, tb_tx_start, tb_reset_clk;
     reg     [N_BITS - 1 : 0]    tb_tx_in;
     
     //-----------------TOP-OUTPUTS-------------------
-    wire    tb_tx_done;
+    wire    tb_tx_done, tb_locked;
     
     //-----------------Variables-------------------
     reg     [N_BITS_INSTR - 1 : 0]  ram     [N_BITS_MEMORY_DEPTH - 1 : 0];
@@ -45,7 +45,7 @@ module TestBench_Topx#(
     (
         .i_clock(tb_clock), 
         .i_reset(tb_reset),
-       // .o_locked(tb_locked),
+        .o_locked(tb_locked),
         .i_reset_clk(tb_reset_clk), 
         .i_start(tb_start), 
         .i_tx_start(tb_tx_start),
@@ -62,7 +62,7 @@ module TestBench_Topx#(
     
     initial
     begin
-    /*
+    
     #0
     tb_clock = 0;
     #10
@@ -78,7 +78,7 @@ module TestBench_Topx#(
     end         
     #100
     tb_reset = 0;
-    */
+    
     #1
     
         tb_reset = 1'b1;

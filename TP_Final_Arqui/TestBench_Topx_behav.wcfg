@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="8790000001fs"></ZoomEndTime>
-      <Cursor1Time time="280000000fs"></Cursor1Time>
+      <ZoomStartTime time="2107697961fs"></ZoomStartTime>
+      <ZoomEndTime time="2108323962fs"></ZoomEndTime>
+      <Cursor1Time time="2109570000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="110"></NameColumnWidth>
+      <NameColumnWidth column_width="106"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="118" />
+   <WVObjectSize size="119" />
    <wvobject fp_name="/TestBench_Topx/tb_clock" type="logic">
       <obj_property name="ElementShortName">tb_clock</obj_property>
       <obj_property name="ObjectShortName">tb_clock</obj_property>
@@ -175,8 +175,8 @@
       <obj_property name="ObjectShortName">ID_EX_rs[4:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_if/Mem_instruction/memoria_data" type="array">
-      <obj_property name="ElementShortName">memoria_data[31:0][31:0]</obj_property>
-      <obj_property name="ObjectShortName">memoria_data[31:0][31:0]</obj_property>
+      <obj_property name="ElementShortName">memoria_data[13:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">memoria_data[13:0][31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FF0080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
@@ -308,6 +308,10 @@
       <obj_property name="ObjectShortName">out_mux[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FF0000</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TestBench_Topx/top/top_if/PC/out_pc_mem" type="array">
+      <obj_property name="ElementShortName">out_pc_mem[31:0]</obj_property>
+      <obj_property name="ObjectShortName">out_pc_mem[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/TestBench_Topx/top/top_if/Mem_instruction/out_mem" type="array">
       <obj_property name="ElementShortName">out_mem[31:0]</obj_property>

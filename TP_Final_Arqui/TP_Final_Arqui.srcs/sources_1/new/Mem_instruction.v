@@ -113,7 +113,7 @@ module Mem_instruction#(
                     out_mem <= out_mem;
             
             end
-    end
+    end*/
     /*
     task resetear; // Se resetea la memoria
         begin : resetear

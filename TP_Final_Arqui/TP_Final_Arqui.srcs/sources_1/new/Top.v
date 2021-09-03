@@ -143,7 +143,7 @@ module Top#(
     
     
     //-------------MODULES-----------------------
-    /*
+    
     clk_wiz_0 clk_wiz 
     (
         // Clock out ports
@@ -153,12 +153,12 @@ module Top#(
         .locked(o_locked),
         // Clock in ports
         .clk_in1(i_clock)
-    );*/
+    );
     
     UART_top top_uart
     (
         //Inputs
-        .top_uart_clock(i_clock), 
+        .top_uart_clock(o_clock), 
         .top_uart_reset(i_reset),
         .top_uart_tx_start(i_tx_start),
         .top_uart_tx_in(i_tx),
@@ -177,7 +177,7 @@ module Top#(
     IF_top top_if
     (
         // Inputs
-        .top1_clock(i_clock),
+        .top1_clock(o_clock),
         .top1_reset(i_reset),
         .top1_write_addr(wr_addr),     // Direccion de escritura de instruccion
         .top1_write_data(instr_data_wr),     // Instruccion a escribir en memoria de instrucciones
@@ -214,7 +214,7 @@ module Top#(
     ID_top top_id
     (
         // Inputs
-        .top2_clock(i_clock),
+        .top2_clock(o_clock),
         .top2_reset(i_reset),
         .top2_pc_adder_in(IF_pc_adder),
         .top2_instruction_in(IF_instr),
@@ -265,7 +265,7 @@ module Top#(
     EX_top top_ex
     (
         //Inputs
-        .top3_clock(i_clock),
+        .top3_clock(o_clock),
         .top3_reset(i_reset),
         .top3_pc_sumador_in(ID_pc_adder),     // Resultado de sumador de etapa IF
         .top3_offset(ID_offset),            // Offset que viene de extension de signo
@@ -309,7 +309,7 @@ module Top#(
     MEM_top top_mem
     (
         // Inputs
-        .top4_clock(i_clock), 
+        .top4_clock(o_clock), 
         .top4_reset(i_reset),
         .top4_addr(EX_alu_result),
         .top4_write_data(EX_rd_data),
